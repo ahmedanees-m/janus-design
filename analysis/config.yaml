@@ -1,0 +1,27 @@
+# Seeds and thresholds used across the analysis scripts. See analysis_plan.md.
+
+seeds:
+  global: 0
+  bootstrap: 1
+  controls: 2
+  permutation: 3
+
+thresholds:
+  exposed_rsa: 0.25
+  buried_rsa: 0.15
+  hydropathy: 1.8
+  low_complexity_window: 12
+  low_complexity_entropy: 1.5
+
+bootstrap:
+  resamples: 2000
+  cluster_resamples: 4000
+
+fdr: 0.05
+
+delta: 1.0
+
+weights:
+  mpnn: 1.0
+  cai: 0.5
+  cpb: 0.3

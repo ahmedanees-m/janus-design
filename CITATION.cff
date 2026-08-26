@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: If you use this software, please cite both the software and the paper.
+title: "janus-design"
+abstract: >-
+  Joint optimisation over amino-acid and coding sequence for de novo designed
+  proteins, by exact parsing of an amino-acid-degenerate codon lattice.
+type: software
+version: "0.1.0"
+license: MIT
+repository-code: https://github.com/ahmedanees-m/janus-design
+authors:
+  - family-names: Mahaboob Ali
+    given-names: Anees Ahmed
+    orcid: https://orcid.org/0000-0002-2135-0865
+    affiliation: >-
+      School of Bio Sciences and Technology,
+      Vellore Institute of Technology, Vellore, India
+    email: ahmedaneesm@gmail.com
+  - family-names: Delhibabu
+    given-names: Radhakrishnan
+    orcid: https://orcid.org/0000-0001-6591-184X
+    affiliation: >-
+      School of Computer Science and Engineering,
+      Vellore Institute of Technology, Vellore, India
+    email: rdelhibabu@vit.ac.in
+  - family-names: Nelson
+    given-names: Everette Jacob Remington
+    orcid: https://orcid.org/0000-0002-9781-526X
+    affiliation: >-
+      School of Bio Sciences and Technology,
+      Vellore Institute of Technology, Vellore, India
+    email: everette.nelson@vit.ac.in
+keywords:
+  - protein design
+  - codon optimisation
+  - inverse folding
+  - de novo protein
+  - gene synthesis
+preferred-citation:
+  type: article
+  title: >-
+    Joint optimisation of amino-acid and coding sequence for de novo designed
+    proteins
+  authors:
+    - family-names: Mahaboob Ali
+      given-names: Anees Ahmed
+      orcid: https://orcid.org/0000-0002-2135-0865
+    - family-names: Delhibabu
+      given-names: Radhakrishnan
+      orcid: https://orcid.org/0000-0001-6591-184X
+    - family-names: Nelson
+      given-names: Everette Jacob Remington
+      orcid: https://orcid.org/0000-0002-9781-526X
+  year: 2026

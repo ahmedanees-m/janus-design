@@ -1,0 +1,66 @@
+# Escherichia coli BL21(DE3), the primary host.
+#
+# Codon and codon-pair counts in the sidecar tables are generated from the
+# reference coding sequences named under `source` by `janus build-host`. The
+# constraints and initiation model below are policy and are maintained by hand.
+
+name: Escherichia coli BL21(DE3)
+taxid: 469008
+
+source:
+  assembly: GCF_000022665.1 (ASM2266v1)
+  file: GCF_000022665.1_ASM2266v1_cds_from_genomic.fna.gz
+  origin: NCBI RefSeq
+  note: >
+    BL21(DE3) rather than K-12 because the expression strain is what the designs
+    are destined for. The two differ little in codon usage, but the tables should
+    describe the organism actually used.
+
+codon_counts: ecoli_bl21.codon_counts.tsv
+codon_pair_counts: ecoli_bl21.codon_pairs.tsv
+
+# Vendor screening thresholds. The window and homopolymer limits follow the
+# constraint set published with arXiv 2605.03578, which reflects what commercial
+# synthesis actually rejects rather than what is theoretically undesirable.
+constraints:
+  gc_range: [0.40, 0.60]
+  gc_windows:
+    - width: 100
+      maximum: 0.70
+    - width: 20
+      maximum: 0.90
+  max_homopolymer:
+    A: 9
+    T: 9
+    G: 5
+    C: 5
+  max_repeat_length: 10
+  forbidden_sites:
+    NdeI: CATATG
+    XhoI: CTCGAG
+    BamHI: GGATCC
+    EcoRI: GAATTC
+    HindIII: AAGCTT
+    NcoI: CCATGG
+    SalI: GTCGAC
+    NotI: GCGGCCGC
+    BsaI: GGTCTC
+    BsmBI: CGTCTC
+
+# Initiation is Shine-Dalgarno dependent, so the objective penalises local
+# structure over the window that must stay open for the 30S subunit to load.
+# Bounds are given in nucleotides relative to the A of the start codon and
+# follow Kudla 2009 and Goodman 2013.
+#
+# global_mfe_sign is the sign applied to whole-transcript folding free energy.
+# Zero here because no prokaryotic result supports rewarding global structure;
+# the eukaryotic half-life argument does not transfer to E. coli.
+# The 5' UTR is held fixed and reported as a controlled variable. Joint UTR
+# and CDS design is a separate axis and is out of scope. This is the pET-28a(+)
+# T7 leader through the NdeI site, which is what the designs would be cloned
+# into, and it carries the Shine-Dalgarno AAGGAG.
+initiation:
+  model: shine_dalgarno
+  window: [-4, 37]
+  global_mfe_sign: 0
+  utr: TTTAACTTTAAGAAGGAGATATACAT

@@ -1,0 +1,53 @@
+# Homo sapiens, for HEK293 expression. Secondary host.
+#
+# The initiation model is not the prokaryotic one with a sign flipped. Initiation
+# is by cap-dependent scanning, so there is no Shine-Dalgarno to keep accessible;
+# what matters is Kozak context at the start codon and the absence of structure
+# that would impede scanning. Whole-transcript structure works the other way from
+# the prokaryotic case: stable secondary structure raises half-life, which is
+# LinearDesign's thesis for vaccine mRNA, so global_mfe_sign is positive here and
+# zero for E. coli. The two hosts carry separate models for that reason.
+
+name: Homo sapiens (HEK293)
+taxid: 9606
+
+source:
+  assembly: GRCh38
+  file: Homo_sapiens.GRCh38.cds.all.fa.gz
+  origin: Ensembl
+  note: >
+    Counted over the full Ensembl CDS set with the same filters as BL21(DE3):
+    sequences must be a multiple of three and free of internal stops.
+
+codon_counts: hek293.codon_counts.tsv
+codon_pair_counts: hek293.codon_pairs.tsv
+
+constraints:
+  gc_range: [0.40, 0.65]
+  gc_windows:
+    - width: 100
+      maximum: 0.75
+    - width: 20
+      maximum: 0.90
+  max_homopolymer:
+    A: 9
+    T: 9
+    G: 5
+    C: 5
+  max_repeat_length: 10
+  forbidden_sites:
+    NheI: GCTAGC
+    XhoI: CTCGAG
+    BamHI: GGATCC
+    EcoRI: GAATTC
+    HindIII: AAGCTT
+    NotI: GCGGCCGC
+    BsaI: GGTCTC
+    BsmBI: CGTCTC
+
+initiation:
+  model: cap_scanning
+  window: [-6, 30]
+  global_mfe_sign: 1
+  kozak: GCCACCATGG
+  utr: GGGAGACCCAAGCTGGCTAGCGCCACC
