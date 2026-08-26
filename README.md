@@ -1,5 +1,9 @@
 # janus-design
 
+[![tests](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml/badge.svg)](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml)
+[![python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
+[![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+
 Joint optimisation of amino-acid and coding sequence for de novo designed proteins.
 
 JANUS takes an inverse-folding posterior for a backbone and a host organism and
@@ -19,20 +23,21 @@ the residue sequence, and no synonymous substitution moves them.
 ## Installation
 
 ```bash
-pip install janus-design
-```
-
-From source:
-
-```bash
 git clone https://github.com/ahmedanees-m/janus-design
 cd janus-design
 pip install -e .
 ```
 
-ViennaRNA is needed for the mRNA folding terms and ProteinMPNN for the
-marginals. Both are optional at install time and the tests that need them skip
-when they are absent.
+The solver needs only numpy and pyyaml. The objective terms that read structure
+and fold RNA need more, and come as an extra:
+
+```bash
+pip install -e ".[analysis]"
+```
+
+ProteinMPNN supplies the marginals and is run separately; LinearDesign is used by
+one cross-implementation test. Both are optional, and the tests that need them
+skip when they are absent.
 
 A container definition is included:
 
@@ -186,7 +191,8 @@ search using roughly a seventh of the evaluations.
 pytest
 ```
 
-72 tests, 2 of which skip when ViennaRNA or LinearDesign is unavailable. Two
+72 tests, 2 of which skip when ViennaRNA or LinearDesign is unavailable. On a
+solver-only install a further 21 skip, since they need the analysis extra. Two
 check the layers in isolation: an open shell scored on the marginal term alone
 must return the marginal argmax, and a zero entropy budget must collapse the
 lattice to a fixed-protein codon automaton whose optimum matches exhaustive

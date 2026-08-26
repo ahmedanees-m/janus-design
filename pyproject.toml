@@ -29,6 +29,13 @@ dev = [
     "pytest>=7.4",
     "ruff>=0.5,<0.16",
 ]
+# The solver needs only numpy and pyyaml. These are what the objective terms and
+# the analysis scripts need: folding energy, secondary structure and statistics.
+analysis = [
+    "biotite>=1.0",
+    "scipy>=1.11",
+    "ViennaRNA>=2.6",
+]
 
 [project.scripts]
 janus = "janus.cli:main"
