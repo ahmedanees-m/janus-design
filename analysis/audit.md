@@ -7,17 +7,17 @@ was live for an unknown period before that. This is the audit of what it reached
 
 ## What was on which side of the fix
 
-The fix is commit `5d6492b`. Every experiment that calls `pool_scales` was placed
-on one side of it.
+Every experiment that calls `pool_scales` was placed on one side of the fix by
+the date of the run that produced its output file.
 
-| experiment | commit | side | re-run |
-|---|---|---|---|
-| folding-weight frontier | `6aa844f` | before | yes |
-| layer decomposition | `004166a` | before | yes |
-| case study, three arms | `8ceb7e7` | after | no |
-| amino-acid exchange rate | `5d6492b` | at the fix | no |
-| delta sweep | `ee670e6` | after | no |
-| baseline comparison | `93094ad` | after | no |
+| experiment | side of the fix | re-run |
+|---|---|---|
+| folding-weight frontier | before | yes |
+| layer decomposition | before | yes |
+| amino-acid exchange rate | at the fix | no |
+| case study, three arms | after | no |
+| delta sweep | after | no |
+| baseline comparison | after | no |
 
 The two-tier bound never used `pool_scales` at all; it combined terms directly,
 which is a separate defect handled below.
@@ -36,9 +36,8 @@ first experiment to score a liability term that genuinely takes one value on eve
 candidate: a design carrying no low-complexity window has none anywhere in its
 shell either.
 
-So the defect was real, was fixed, and reached nothing that was reported. That is
-the useful thing to be able to say, and it is worth the day it took to be able to
-say it rather than assume it.
+The defect was real, was fixed, and reached nothing that was reported. The two
+re-runs are what establish the last of those.
 
 ## Two other defects the audit turned up
 
@@ -47,8 +46,7 @@ folding call when the initiation weight was zero, as an optimisation, and return
 0.0 for the reported energy. `Rescored.initiation_energy` is a reported field as
 well as a scoring term, so a sweep measuring what its winner gained against the
 weight-zero row read that row's entire energy as a gain: the frontier briefly
-showed 6.69 kcal/mol opened for nothing at weight zero. Introduced in `5d6492b`,
-in the same commit as the fix above, and caught here. The energy is now always
+showed 6.69 kcal/mol opened for nothing at weight zero. Introduced alongside the fix above, and caught here. The energy is now always
 measured, and a test asserts that a zero weight changes the ranking rather than
 the reported energy.
 

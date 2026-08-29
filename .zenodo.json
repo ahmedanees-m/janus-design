@@ -1,0 +1,44 @@
+{
+  "title": "janus-design: joint amino-acid and codon optimisation for de novo designed proteins",
+  "description": "Software for joint optimisation over amino-acid and coding sequence. Constructs a lattice whose branches at each position are the codons of every residue within a log-probability budget of the inverse-folding marginal, and extracts the k highest-scoring paths exactly under a decomposable objective spanning fold compatibility, codon adaptation, codon-pair bias and GC content. Terms that do not decompose over lattice nodes, including mRNA folding and protein-level liabilities, are optimised in a rescoring tier. Includes host policy files for Escherichia coli BL21(DE3) and HEK293, the analysis scripts used in the accompanying paper, and the test suite.",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Mahaboob Ali, Anees Ahmed",
+      "affiliation": "School of Bio Sciences and Technology, Vellore Institute of Technology, Vellore, India",
+      "orcid": "0000-0002-2135-0865"
+    },
+    {
+      "name": "Delhibabu, Radhakrishnan",
+      "affiliation": "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, India",
+      "orcid": "0000-0001-6591-184X"
+    },
+    {
+      "name": "Nelson, Everette Jacob Remington",
+      "affiliation": "School of Bio Sciences and Technology, Vellore Institute of Technology, Vellore, India",
+      "orcid": "0000-0002-9781-526X"
+    }
+  ],
+  "keywords": [
+    "protein design",
+    "codon optimisation",
+    "inverse folding",
+    "de novo protein",
+    "dynamic programming",
+    "lattice parsing",
+    "gene synthesis",
+    "translation initiation",
+    "ProteinMPNN"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ahmedanees-m/janus-design",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ],
+  "language": "eng"
+}
