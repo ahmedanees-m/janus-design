@@ -45,6 +45,53 @@ A container definition is included:
 docker build -t janus .
 ```
 
+## Repository layout
+
+```
+src/janus/                the package
+  lattice.py              the amino-acid-degenerate codon lattice
+  parse.py                exact k-best extraction by list Viterbi
+  design.py               the k-best entry point, and scoring a finished CDS
+  search.py               coordinate descent and best-improvement over the shell
+  sample.py               shell draws, and the fixed-protein codon solve
+  rescore.py              Tier 2, term normalisation over a candidate pool
+  cli.py                  janus design, janus build-host
+  genetic_code.py         codon tables and translation
+  objectives/             one module per term
+    mpnn.py               inverse-folding marginals as node weights
+    codon.py              codon adaptation, codon-pair bias, GC
+    mrna.py               initiation window and transcript folding, ViennaRNA
+    liability.py          the five protein-level liabilities
+    proteostasis.py       ELM motif scanning with accessibility weighting
+    synthesis.py          vendor constraint checks
+  hosts/                  one YAML policy plus two count tables per host
+    ecoli_bl21.yaml       E. coli BL21(DE3): Shine-Dalgarno, pET-28a leader
+    hek293.yaml           human: cap-scanning, Kozak context
+
+analysis/                 what was run, and what came out
+  analysis_plan.md        feature panel, thresholds and tests, fixed beforehand
+  limitations.md          what each result does not establish
+  audit.md                a normalisation defect, its blast radius, the re-runs
+  data_audit.md           every input checked against its source
+  *.md                    one note per experiment
+  config.yaml             seeds, thresholds, resample counts
+  scripts/                one script per experiment, each writing JSON
+
+tests/                    72 tests, 2 skipped without ViennaRNA or LinearDesign
+baselines/                the comparator arms that need their own environment
+examples/quickstart.py    smallest end-to-end run
+
+Dockerfile                pinned runtime for the solver and the analysis
+pyproject.toml            package metadata, dependencies and the janus entry point
+CITATION.cff              machine-readable citation
+.zenodo.json              deposit metadata, read by Zenodo on each release
+.github/workflows/        the test matrix run on every push
+LICENSE                   MIT
+```
+
+Figures and the code that draws them are not in this repository. The figure
+source data is in the Zenodo deposit.
+
 ## Usage
 
 JANUS scores residues by their inverse-folding marginals, so it starts from a
@@ -199,11 +246,46 @@ lattice to a fixed-protein codon automaton whose optimum matches exhaustive
 enumeration on short lattices. In the CAI limit the codon layer reproduces
 LinearDesign path for path.
 
-## Data
+## Datasets
+
+Nothing below is redistributed here. Each is fetched from its source; the host
+codon tables are the one exception, being counts rather than sequence, and they
+ship in `src/janus/hosts/`.
+
+| Dataset | Version and access | What it supplies |
+|---|---|---|
+| MegaScale | Tsuboyama et al., *Nature* 620 (2023), doi:10.1038/s41586-023-06328-6. Zenodo 7992926 | 862 AlphaFold backbones, 447 designed and 415 natural, 26 to 74 residues; 1,868,872 rows of folding free energy across four libraries |
+| Design success benchmark | Garcia, Dixit and Rocklin, *Protein Science* 35(2):e70453 (2026), doi:10.1002/pro.70453. Taken from the CC-BY preprint supplement, bioRxiv 2025.07.29.667290 | 614 designs from eleven studies, 2012 to 2021, with experimental success labels and 53 fold classes; 269 successful |
+| Eukaryotic Linear Motif | Classes file 1.4, retrieved 19 August 2026 | 353 motif classes. 33 degrons, 11 protease-cleavage, 28 targeting and 40 modification classes are scanned |
+| UniProt and AlphaFold DB | REST, query in `analysis/scripts/fetch_whole_naturals.py` | 2,235 reviewed entries of 26 to 74 residues with protein-level evidence, the pool the whole-protein control arm is matched from |
+| RCSB de novo subset | RCSB search and data APIs | 2,056 entries and 2,423 polymer entities with release dates, for the contamination stratification, and the parent-coverage alignments behind the excision check |
+| RefSeq GCF_000022665.1 | NCBI, *E. coli* BL21(DE3), ASM2266v1 | 1,316,394 codons and 3,718 codon pairs, counted into `ecoli_bl21.codon_counts.tsv` |
+| Ensembl GRCh38 | Ensembl human CDS | 152,177,454 codons and 3,721 codon pairs, counted into `hek293.codon_counts.tsv` |
+
+Model checkpoints are used at inference only; no model was trained or fine-tuned
+at any stage.
+
+| Model | Checkpoint | Source |
+|---|---|---|
+| ProteinMPNN | `vanilla_model_weights/v_48_020.pt` | github.com/dauparas/ProteinMPNN |
+| SolubleMPNN | `soluble_model_weights/v_48_020.pt` | github.com/dauparas/ProteinMPNN |
+| MoMPNN | `mompnn_protsol_ig_6_4_b01.ckpt` | github.com/Qivon7/MoMPNN |
+| CodonMPNN | `codonmpnn_afdb_taxons20k.ckpt` | the authors' public bucket |
+| CodonTransformer | `adibvafa/CodonTransformer` | huggingface.co/adibvafa/CodonTransformer |
+| ESMFold | `esmfold_v1` | used to fold the 614 benchmark sequences |
+
+ELM redistribution is restricted by its terms of use and non-academic use
+requires a licence, so the classes file is fetched rather than shipped.
+LinearDesign is needed only by the cross-implementation test and no result
+depends on it. MegaScale's raw NGS count tables and Rocklin et al. 2017 were
+evaluated as sources and are not used.
+
+## Deposited data
 
 Derived data, run outputs and figure source data are deposited separately on
 Zenodo. The deposit includes the inverse-folding marginals for all 862 backbones
-used in the paper, so the analyses can be reproduced without a GPU.
+used in the paper, so every analysis here can be reproduced without a GPU and
+without rerunning ProteinMPNN.
 
 ## Citation
 
