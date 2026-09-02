@@ -283,9 +283,11 @@ evaluated as sources and are not used.
 ## Deposited data
 
 Derived data, run outputs and figure source data are deposited separately on
-Zenodo. The deposit includes the inverse-folding marginals for all 862 backbones
-used in the paper, so every analysis here can be reproduced without a GPU and
-without rerunning ProteinMPNN.
+Zenodo at https://doi.org/10.5281/zenodo.22253785, which always resolves to the
+latest version. Version 1.0, the one the paper reports, is
+https://doi.org/10.5281/zenodo.22253786. The deposit includes the inverse-folding
+marginals for all 862 backbones used in the paper, so every analysis here can be
+reproduced without a GPU and without rerunning ProteinMPNN.
 
 ## Citation
 

@@ -52,3 +52,20 @@ preferred-citation:
       given-names: Everette Jacob Remington
       orcid: https://orcid.org/0000-0002-9781-526X
   year: 2026
+references:
+  - type: data
+    title: "JANUS: data and reproducibility artefacts"
+    authors:
+      - family-names: Mahaboob Ali
+        given-names: Anees Ahmed
+        orcid: https://orcid.org/0000-0002-2135-0865
+      - family-names: Delhibabu
+        given-names: Radhakrishnan
+        orcid: https://orcid.org/0000-0001-6591-184X
+      - family-names: Nelson
+        given-names: Everette Jacob Remington
+        orcid: https://orcid.org/0000-0002-9781-526X
+    year: 2026
+    publisher:
+      name: Zenodo
+    doi: 10.5281/zenodo.22253785
