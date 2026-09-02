@@ -297,8 +297,9 @@ Joint optimisation of amino acid and coding sequence for de novo designed
 proteins. (submitted)
 ```
 
-`CITATION.cff` carries the machine-readable form. A version DOI is minted by
-Zenodo on each tagged release and added there.
+`CITATION.cff` carries the machine-readable form. Releases are tagged in this
+repository; cite the tag for a specific version. The data deposit carries its own
+DOI and is cited separately.
 
 ## Licence
 
