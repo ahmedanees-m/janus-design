@@ -1,4 +1,4 @@
-"""Joint amino-acid and codon design for de novo proteins."""
+"""Joint amino acid and codon design for de novo proteins."""
 
 from .design import Design, design, evaluate
 from .hosts import Host, load as load_host

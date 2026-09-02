@@ -4,7 +4,7 @@
 [![python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
 [![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
-Joint optimisation of amino-acid and coding sequence for de novo designed proteins.
+Joint optimisation of amino acid and coding sequence for de novo designed proteins.
 
 JANUS takes an inverse-folding posterior for a backbone and a host organism and
 returns a coding sequence, choosing the protein sequence and the codons together
@@ -291,7 +291,7 @@ without rerunning ProteinMPNN.
 
 ```
 Mahaboob Ali AA, Delhibabu R, Nelson EJR.
-Joint optimisation of amino-acid and coding sequence for de novo designed
+Joint optimisation of amino acid and coding sequence for de novo designed
 proteins. (submitted)
 ```
 

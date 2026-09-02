@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: If you use this software, please cite both the software and the paper.
 title: "janus-design"
 abstract: >-
-  Joint optimisation over amino-acid and coding sequence for de novo designed
+  Joint optimisation over amino acid and coding sequence for de novo designed
   proteins, by exact parsing of an amino-acid-degenerate codon lattice.
 type: software
 version: "0.1.0"
@@ -39,7 +39,7 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    Joint optimisation of amino-acid and coding sequence for de novo designed
+    Joint optimisation of amino acid and coding sequence for de novo designed
     proteins
   authors:
     - family-names: Mahaboob Ali
