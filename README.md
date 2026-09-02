@@ -238,8 +238,10 @@ search using roughly a seventh of the evaluations.
 pytest
 ```
 
-72 tests, 2 of which skip when ViennaRNA or LinearDesign is unavailable. On a
-solver-only install a further 21 skip, since they need the analysis extra. Two
+74 tests. On a full install 72 pass and 2 skip: one needs the optional
+LinearDesign binary, and one is skipped by construction, since LinearDesign's
+objective carries a folding term that never enters this parse. On a solver-only
+install a further 21 skip, since they need the analysis extra. Two
 check the layers in isolation: an open shell scored on the marginal term alone
 must return the marginal argmax, and a zero entropy budget must collapse the
 lattice to a fixed-protein codon automaton whose optimum matches exhaustive
