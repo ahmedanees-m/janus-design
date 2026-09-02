@@ -6,11 +6,11 @@
 
 Three arms on the same backbones:
 
-1. **vendor** — the design's own residue sequence with the highest
+1. **vendor**: the design's own residue sequence with the highest
    relative-adaptiveness codon at every position
-2. **codon** — the same residue sequence with the JANUS codon layer, every
+2. **codon**: the same residue sequence with the JANUS codon layer, every
    position pinned
-3. **joint** — a hill climb from arm 2 over the shell, one residue at a time,
+3. **joint**: a hill climb from arm 2 over the shell, one residue at a time,
    on the same combined objective
 
 Arm 2 minus arm 1 is the codon layer with the protein held fixed. Arm 3 minus

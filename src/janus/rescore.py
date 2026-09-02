@@ -1,9 +1,15 @@
 """Tier 2: rescoring k-best candidates under terms the parser cannot carry.
 
 The parser proposes a small, high-quality candidate set from an astronomically
-large space; terms that do not decompose over lattice nodes rank it. mRNA
-folding is here now. Conditional ProteinMPNN likelihood and the proteostasis
-terms belong here too and are not yet implemented.
+large space; terms that do not decompose over lattice nodes rank it. The
+initiation window and the whole-transcript folding energy are scored here, and so
+is the protein-level liability panel, which arrives as a caller-supplied function
+so the panel can be swapped without touching the ranking.
+
+The conditional ProteinMPNN likelihood is the third term of this kind. Scoring it
+needs the model itself and a GPU, which the solver deliberately does not depend
+on, so it is computed outside this package by the analysis scripts and folded in
+there.
 
 Terms arrive in different units: the Tier-1 score is in nats, folding energies
 in kcal/mol. Adding them directly makes the weight an accidental unit

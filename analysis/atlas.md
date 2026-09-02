@@ -88,7 +88,7 @@ can manufacture an accessibility difference on its own.
 Classifying each natural entry by how much of its UniProt reference the deposited
 entity covers: of 104 distinct entries, 88 resolved, and only **15 are whole
 proteins** at 90 percent coverage or better. **73 are fragments, with a median
-coverage of 0.11** — the typical natural control covers about a ninth of its
+coverage of 0.11**, so the typical natural control covers about a ninth of its
 parent protein.
 
 Splitting the comparison, with cluster bootstrap intervals over source entries:

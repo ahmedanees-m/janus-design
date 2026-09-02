@@ -92,7 +92,7 @@ This supplies the H5 contamination stratification.
 862 AlphaFold models extracted, 26 to 74 residues, median 47, of which 447 are
 designs. These are the working set.
 
-## Gate 2 outcome
+## Consequence for the design
 
 DNA exists but records library synthesis, so the descriptive gene-layer claim in
 H1 is dropped and H1 runs on protein-layer features against the control set. The
