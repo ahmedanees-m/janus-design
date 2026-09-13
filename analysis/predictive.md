@@ -4,8 +4,9 @@ H5. Garcia, Dixit and Rocklin benchmark, bioRxiv 2025.07.29.667290 v2
 supplementary CSV, CC-BY. 614 designs, 269 successful (43.8 percent).
 
 An earlier note recorded this as blocked behind a publisher paywall. That was
-wrong: the journal version is paywalled, the preprint supplement is not, and it
-carries sequences, labels, ESMFold pLDDT, ProteinMPNN scores and fold class.
+wrong twice over: the version of record is open under CC-BY, and the preprint
+supplement, which is where the file was taken from, is open as well. It carries
+sequences, labels, ESMFold pLDDT, ProteinMPNN scores and fold class.
 
 ## Scope, narrowed by what the benchmark contains
 

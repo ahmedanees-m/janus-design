@@ -258,7 +258,7 @@ ship in `src/janus/hosts/`.
 | Dataset | Version and access | What it supplies |
 |---|---|---|
 | MegaScale | Tsuboyama et al., *Nature* 620 (2023), doi:10.1038/s41586-023-06328-6. Zenodo 7992926 | 862 AlphaFold backbones, 447 designed and 415 natural, 26 to 74 residues; 1,868,872 rows of folding free energy across four libraries |
-| Design success benchmark | Garcia, Dixit and Rocklin, *Protein Science* 35(2):e70453 (2026), doi:10.1002/pro.70453. Taken from the CC-BY preprint supplement, bioRxiv 2025.07.29.667290 | 614 designs from eleven studies, 2012 to 2021, with experimental success labels and 53 fold classes; 269 successful |
+| Design success benchmark | Garcia, Dixit and Rocklin, *Protein Science* 35(2):e70453 (2026), doi:10.1002/pro.70453, open under CC-BY. Obtained from the preprint supplement, bioRxiv 2025.07.29.667290 | 614 designs from eleven studies, 2012 to 2021, with experimental success labels and 53 fold classes; 269 successful |
 | Eukaryotic Linear Motif | Classes file 1.4, retrieved 19 August 2026 | 353 motif classes. 33 degrons, 11 protease-cleavage, 28 targeting and 40 modification classes are scanned |
 | UniProt and AlphaFold DB | REST, query in `analysis/scripts/fetch_whole_naturals.py` | 2,235 reviewed entries of 26 to 74 residues with protein-level evidence, the pool the whole-protein control arm is matched from |
 | RCSB de novo subset | RCSB search and data APIs | 2,056 entries and 2,423 polymer entities with release dates, for the contamination stratification, and the parent-coverage alignments behind the excision check |

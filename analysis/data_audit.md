@@ -77,9 +77,11 @@ download.
 Preprint bioRxiv 2025.07.29.667290 (CC-BY), v1 posted 1 August 2025 and v2 posted
 9 August 2025; the copy held in `external/papers` is v1. The preprint carries no
 data availability statement and links no supplementary files from the article
-page, and the journal version is behind a publisher block, so the 614-design
+page, and the journal version appeared blocked at the time, so the 614-design
 benchmark was downloaded by hand from the preprint supplement on 20 August 2026.
-Cite the journal version and record the preprint as the route to the data.
+The version of record is in fact open under CC-BY at the publisher, checked
+against Unpaywall on 13 September 2026. Cite the journal version and record the
+preprint as the route by which the data was obtained.
 
 ## PDB de novo subset
 
