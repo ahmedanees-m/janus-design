@@ -34,6 +34,12 @@
   ],
   "related_identifiers": [
     {
+      "identifier": "10.21203/rs.3.rs-10942775/v1",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
+    },
+    {
       "identifier": "https://github.com/ahmedanees-m/janus-design",
       "relation": "isSupplementTo",
       "resource_type": "software",

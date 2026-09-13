@@ -52,6 +52,11 @@ preferred-citation:
       given-names: Everette Jacob Remington
       orcid: https://orcid.org/0000-0002-9781-526X
   year: 2026
+  month: 9
+  journal: Research Square
+  doi: 10.21203/rs.3.rs-10942775/v1
+  url: https://doi.org/10.21203/rs.3.rs-10942775/v1
+  notes: Preprint, version 1. Not peer reviewed.
 references:
   - type: data
     title: "JANUS: data and reproducibility artefacts"

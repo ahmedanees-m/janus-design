@@ -3,6 +3,7 @@
 [![tests](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml/badge.svg)](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml)
 [![python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
 [![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+[![preprint](https://img.shields.io/badge/preprint-10.21203%2Frs.3.rs--10942775-00857c)](https://doi.org/10.21203/rs.3.rs-10942775/v1)
 
 Joint optimisation of amino acid and coding sequence for de novo designed proteins.
 
@@ -296,8 +297,11 @@ reproduced without a GPU and without rerunning ProteinMPNN.
 ```
 Mahaboob Ali AA, Delhibabu R, Nelson EJR.
 Joint optimisation of amino acid and coding sequence for de novo designed
-proteins. (submitted)
+proteins. Research Square, 8 September 2026. doi:10.21203/rs.3.rs-10942775/v1
 ```
+
+The preprint is not peer reviewed. It will be replaced here by the journal
+version once one exists.
 
 `CITATION.cff` carries the machine-readable form. Releases are tagged in this
 repository; cite the tag for a specific version. The data deposit carries its own
