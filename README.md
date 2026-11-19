@@ -77,8 +77,18 @@ analysis/                 what was run, and what came out
   *.md                    one note per experiment
   config.yaml             seeds, thresholds, resample counts
   scripts/                one script per experiment, each writing JSON
+    redesign_sequences.py the sequence every arm returns
+    fold_sequences.py     ESMFold over those sequences
+    structure_recovery.py TM-align against the target backbone
+    budget_matched.py     best of n draws under the shared objective
+    weight_sensitivity.py the result under alternative weightings
+    length_scaling.py     parse cost and gain against chain length
+    prefix_coverage.py    what the Tier-1 prefix keeps
+    host_proteostasis.py  the bacterial N-end rule signal per arm
+    excision_effects.py   the excised arm split by parent coverage
+    reported_values.py    every aggregate the paper quotes, in one place
 
-tests/                    72 tests, 2 skipped without ViennaRNA or LinearDesign
+tests/                    74 tests, 2 skipped: one needs the LinearDesign binary
 baselines/                the comparator arms that need their own environment
 examples/quickstart.py    smallest end-to-end run
 
@@ -90,8 +100,8 @@ CITATION.cff              machine-readable citation
 LICENSE                   MIT
 ```
 
-Figures and the code that draws them are not in this repository. The figure
-source data is in the Zenodo deposit.
+The figure scripts and their per-panel source data are in the Zenodo deposit
+rather than here, so that the repository stays the solver and the analysis.
 
 ## Usage
 
@@ -260,7 +270,7 @@ ship in `src/janus/hosts/`.
 | MegaScale | Tsuboyama et al., *Nature* 620 (2023), doi:10.1038/s41586-023-06328-6. Zenodo 7992926 | 862 AlphaFold backbones, 447 designed and 415 natural, 26 to 74 residues; 1,868,872 rows of folding free energy across four libraries |
 | Design success benchmark | Garcia, Dixit and Rocklin, *Protein Science* 35(2):e70453 (2026), doi:10.1002/pro.70453, open under CC-BY. Obtained from the preprint supplement, bioRxiv 2025.07.29.667290 | 614 designs from eleven studies, 2012 to 2021, with experimental success labels and 53 fold classes; 269 successful |
 | Eukaryotic Linear Motif | Classes file 1.4, retrieved 19 August 2026 | 353 motif classes. 33 degrons, 11 protease-cleavage, 28 targeting and 40 modification classes are scanned |
-| UniProt and AlphaFold DB | REST, query in `analysis/scripts/fetch_whole_naturals.py` | 2,235 reviewed entries of 26 to 74 residues with protein-level evidence, the pool the whole-protein control arm is matched from |
+| UniProt and AlphaFold DB | REST, query in `analysis/scripts/fetch_whole_naturals.py` | 2,235 reviewed entries of 26 to 74 residues with protein-level evidence, the pool the whole-protein control arm is matched from, and a length ladder of reviewed entries reaching 198 residues for the scaling measurement |
 | RCSB de novo subset | RCSB search and data APIs | 2,056 entries and 2,423 polymer entities with release dates, for the contamination stratification, and the parent-coverage alignments behind the excision check |
 | RefSeq GCF_000022665.1 | NCBI, *E. coli* BL21(DE3), ASM2266v1 | 1,316,394 codons and 3,718 codon pairs, counted into `ecoli_bl21.codon_counts.tsv` |
 | Ensembl GRCh38 | Ensembl human CDS | 152,177,454 codons and 3,721 codon pairs, counted into `hek293.codon_counts.tsv` |
@@ -275,22 +285,25 @@ at any stage.
 | MoMPNN | `mompnn_protsol_ig_6_4_b01.ckpt` | github.com/Qivon7/MoMPNN |
 | CodonMPNN | `codonmpnn_afdb_taxons20k.ckpt` | the authors' public bucket |
 | CodonTransformer | `adibvafa/CodonTransformer` | huggingface.co/adibvafa/CodonTransformer |
-| ESMFold | `esmfold_v1` | used to fold the 614 benchmark sequences |
+| ESMFold | `esmfold_v1` | used to fold the 614 benchmark sequences and the sequence every arm returns |
 
 ELM redistribution is restricted by its terms of use and non-academic use
 requires a licence, so the classes file is fetched rather than shipped.
 LinearDesign is needed only by the cross-implementation test and no result
-depends on it. MegaScale's raw NGS count tables and Rocklin et al. 2017 were
-evaluated as sources and are not used.
+depends on it. Structural agreement is measured with TM-align, built from the
+authors' published source and called as an external binary, so the alignment is
+the reference implementation rather than a reimplementation of it. MegaScale's
+raw NGS count tables and Rocklin et al. 2017 were evaluated as sources and are
+not used.
 
 ## Deposited data
 
 Derived data, run outputs and figure source data are deposited separately on
 Zenodo at https://doi.org/10.5281/zenodo.22253785, which always resolves to the
-latest version. Version 1.0, the one the paper reports, is
-https://doi.org/10.5281/zenodo.22253786. The deposit includes the inverse-folding
-marginals for all 862 backbones used in the paper, so every analysis here can be
-reproduced without a GPU and without rerunning ProteinMPNN.
+latest version. The deposit carries the unconditional inverse-folding marginals
+for all 862 backbones, so every analysis here runs on CPU without rerunning
+ProteinMPNN, together with the tagged source tree, the container definition, the
+analysis and figure scripts, and the dependency manifests.
 
 ## Citation
 
