@@ -35,12 +35,13 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-QUERY = (
-    "(reviewed:true) AND (length:[26 TO 74]) AND (existence:1) AND (fragment:false)"
+FILTERS = (
+    "(reviewed:true) AND (existence:1) AND (fragment:false)"
     " AND (database:alphafolddb)"
     " NOT (ft_signal:*) NOT (ft_propep:*) NOT (ft_transit:*) NOT (ft_peptide:*)"
     " NOT (ft_transmem:*) NOT (ft_intramem:*)"
 )
+QUERY = f"(length:[26 TO 74]) AND {FILTERS}"
 FIELDS = "accession,length,sequence,organism_name,protein_name,cc_subcellular_location"
 SEARCH = "https://rest.uniprot.org/uniprotkb/search"
 MODEL = "https://alphafold.ebi.ac.uk/files/AF-{accession}-F1-model_v{version}.pdb"
@@ -86,13 +87,18 @@ def main():
     parser.add_argument("--version", type=int, default=6, help="AlphaFold DB file version")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--pause", type=float, default=0.05)
+    parser.add_argument("--length", nargs=2, type=int, metavar=("LOW", "HIGH"),
+                        help="residue range, in place of the default 26 to 74")
     args = parser.parse_args()
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
+    query = QUERY
+    if args.length:
+        query = f"(length:[{args.length[0]} TO {args.length[1]}]) AND {FILTERS}"
     print("querying UniProt")
-    entries = search(QUERY, FIELDS, args.limit)
+    entries = search(query, FIELDS, args.limit)
 
     kept, dropped = [], 0
     for entry in entries:
@@ -101,6 +107,8 @@ def main():
             dropped += 1
             continue
         kept.append(entry)
+    if args.limit:
+        kept = kept[: args.limit]
     print(f"{len(kept)} entries with standard residues only, {dropped} dropped")
 
     written, cached, failed = 0, 0, []
@@ -124,8 +132,6 @@ def main():
                   flush=True)
 
     have = {p.stem for p in out.glob("*.pdb")}
-    selected = {entry["Entry"] for entry in kept}
-    leftover = sorted(have - selected)
     lines = ["accession\tlength\tsequence\torganism\tprotein"]
     for entry in kept:
         if entry["Entry"] not in have:

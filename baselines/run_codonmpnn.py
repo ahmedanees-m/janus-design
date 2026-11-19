@@ -1,9 +1,8 @@
 """Generate CodonMPNN coding sequences for a set of backbones.
 
-CodonMPNN is the baseline a reviewer is certain to ask about: a codon-level
-inverse folding model that chooses residues and codons together from structure,
-conditioned on an organism. It is the closest published thing to what this
-project does, and the comparison is the point.
+CodonMPNN is the closest prior art: a codon-level inverse folding model that
+chooses residues and codons together from structure, conditioned on an
+organism. It is the comparison this project has to stand against.
 
 The published repository has weights and a training script but no inference
 entry point: `likelihood_eval.py` carries absolute paths to the authors' cluster

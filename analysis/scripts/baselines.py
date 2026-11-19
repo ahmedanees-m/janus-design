@@ -104,10 +104,11 @@ def vendor_cds(protein, host):
     return "".join(best[r] for r in protein if r in best)
 
 
-def make_objective(marginals, host, rsa, classes, delta, native, pool_size, weights, rng):
+def make_objective(marginals, host, rsa, classes, delta, native, pool_size,
+                   weights, rng, tier1=TIER1):
     """One scoring function, and the pool its scales are measured on."""
-    pool = design(marginals, host, weights=TIER1, delta=delta, k=pool_size, anchor=native)
-    pool += shell_samples(marginals, host, weights=TIER1, delta=delta,
+    pool = design(marginals, host, weights=tier1, delta=delta, k=pool_size, anchor=native)
+    pool += shell_samples(marginals, host, weights=tier1, delta=delta,
                           count=pool_size, rng=rng)
 
     spreads = {}

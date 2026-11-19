@@ -57,7 +57,7 @@ def optimise(
     can begin from a sequence the shell would not otherwise contain.
 
     Returns the design, its score, and the number of times ``score`` was called,
-    since that count is the honest budget when the terms inside it are expensive.
+    since that count is the budget that matters when the terms are expensive.
     """
     search = ShellSearch(log_marginals, host, weights, delta, anchor=anchor)
     current = start if start is not None else design(

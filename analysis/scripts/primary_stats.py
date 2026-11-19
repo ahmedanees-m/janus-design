@@ -27,7 +27,7 @@ from sklearn.preprocessing import StandardScaler
 from features import protein_features
 from janus.objectives.proteostasis import load_classes
 
-HEADLINE = [
+PRIMARY = [
     "n_degron_density_weighted", "n_degron_density_raw",
     "all_degron_density_weighted", "all_degron_density_raw",
     "internal_degron_density_weighted", "c_degron_density_weighted",
@@ -99,7 +99,7 @@ def main():
     print("  0 sits at random, 1 at natural; beyond 1 is past natural")
     print(f"{'feature':<36}{'position':>10}{'95% interval':>22}{'axis width':>12}")
     positions = {}
-    for feature in HEADLINE:
+    for feature in PRIMARY:
         point, (low, high), axis = position_interval(atlas, feature, rng)
         positions[feature] = {"position": point, "ci": [low, high], "axis": axis}
         if np.isnan(point):

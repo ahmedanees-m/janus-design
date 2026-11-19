@@ -146,7 +146,7 @@ GROUPS = {
 
 
 def cross_validated(matrix, labels, folds, seed):
-    """Out-of-fold probabilities from the same model the headline score uses."""
+    """Out-of-fold probabilities from the model the reported score uses."""
     if matrix.shape[1] == 0:
         return np.full(len(labels), 0.5)
     out = np.zeros(len(labels))
