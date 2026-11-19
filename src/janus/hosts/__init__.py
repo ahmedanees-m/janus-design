@@ -206,7 +206,8 @@ def _constraints(spec: dict) -> Constraints:
         gc_windows=windows,
         max_homopolymer={base.upper(): int(n) for base, n in spec["max_homopolymer"].items()},
         max_repeat_length=int(spec.get("max_repeat_length", 10)),
-        forbidden_sites={name: site.upper() for name, site in spec.get("forbidden_sites", {}).items()},
+        forbidden_sites={name: site.upper()
+                         for name, site in spec.get("forbidden_sites", {}).items()},
     )
 
 

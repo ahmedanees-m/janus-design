@@ -237,10 +237,10 @@ def main():
               f"{record['delta_vs_natural']:>9.3f}"
               f"{record['delta_vs_random']:>9.3f}"
               f"{record['delta_vs_scrambled']:>10.3f}"
-              f"{('%.2f' % pos) if pos is not None else '-':>8}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{pos:.2f}' if pos is not None else '-':>8}"
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
-    print("\n=== degron features, the Gate 4 question ===")
+    print("\n=== degron features ===")
     degron = [r for r in results if "degron" in r["feature"]]
     print(f"{'feature':<34}{'vs nat':>9}{'CI':>20}{'vs rand':>9}{'q(nat)':>10}")
     for record in sorted(degron, key=lambda r: r["feature"]):
@@ -250,7 +250,7 @@ def main():
               f"{record['delta_vs_natural']:>9.3f}"
               f"{f'[{low:+.2f}, {high:+.2f}]':>20}"
               f"{record['delta_vs_random']:>9.3f}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     if "whole_natural" in groups:
         print("\n=== degron features against whole natural proteins ===")
@@ -264,7 +264,7 @@ def main():
                   f"{record['delta_vs_whole_natural']:>10.3f}"
                   f"{f'[{low:+.2f}, {high:+.2f}]':>20}"
                   f"{record['delta_vs_natural']:>12.3f}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}")
 
         print("\n=== largest effects against whole natural proteins ===")
         ranked = sorted(results, key=lambda r: -abs(r["delta_vs_whole_natural"] or 0))
@@ -277,7 +277,7 @@ def main():
                   f"{record['delta_vs_natural']:>12.3f}"
                   f"{record['median_design']:>11.3f}"
                   f"{record.get('median_whole_natural', float('nan')):>11.3f}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     print("\n=== normalised position, every feature whose axis is wide enough ===")
     print(f"axis width is the random-to-natural gap over the scatter of those two "
@@ -291,7 +291,7 @@ def main():
         q = record["q_vs_natural"]
         print(f"{record['feature']:<34}{record['normalised_position']:>10.2f}"
               f"{record['axis_width']:>9.2f}{record['delta_vs_natural']:>9.3f}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     print("\n=== per-topology effect sizes ===")
     print("a pooled effect can be carried by one family, and the fold "
@@ -334,10 +334,10 @@ def main():
                        else "establishes nothing")
             print(f"    {record['topology']:<16}{record['n_design']:>6}"
                   f"{record['delta']:>9.3f}{f'[{low:+.2f}, {high:+.2f}]':>22}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}  {verdict}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}  {verdict}")
 
-    # The hallucination family is the largest and the only one that comes out
-    # enriched, so whether it is one effect or one campaign's effect matters.
+    # The hallucination family is the largest, so it is reported on its own as
+    # well as inside the pooled panel.
     method_results = {}
     for feature in args.topology_features:
         if feature not in {r["feature"] for r in results}:

@@ -79,9 +79,9 @@ def interval(design_blocks, control_blocks, rng, resamples):
     if len(draws) < resamples // 2:
         return np.nan, np.nan, np.nan
     if np.ptp(draws) == 0:
-        # A feature with no spread on either side cannot be tested. Reporting a
-        # p-value from a degenerate distribution would read as a determined
-        # zero, which is not what a constant column establishes.
+        # A feature with no spread on either side cannot be tested, and a
+        # p-value from a degenerate distribution would overstate what a
+        # constant column supports.
         value = float(draws[0])
         return value, value, np.nan
     low, high = np.percentile(draws, [2.5, 97.5])
@@ -208,7 +208,7 @@ def main():
             print(f"    {record['topology']:<16}{record['n_design']:>5}"
                   f"{record['n_control_clusters']:>10}{record['delta']:>9.3f}"
                   f"{f'[{low:+.2f}, {high:+.2f}]':>22}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}  {verdict}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}  {verdict}")
 
     print(f"\n=== hallucination split by design set, against {args.control} ===")
     for feature in args.features:

@@ -46,7 +46,8 @@ def determined(interval):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full", required=True, help="cluster bootstrap over every feature")
-    parser.add_argument("--panel", required=True, help="cluster bootstrap over the pre-specified panel")
+    parser.add_argument("--panel", required=True,
+                        help="cluster bootstrap over the pre-specified panel")
     parser.add_argument("--out-dir", required=True)
     args = parser.parse_args()
 

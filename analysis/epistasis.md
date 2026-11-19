@@ -78,10 +78,10 @@ designed arm is if anything marginally higher than the natural one.
 epistasis is milder on designed parents, and milder still inside the shell, is a
 range effect. In the well-measured middle the two arms are indistinguishable, and
 the n=220 shell subset that carried the strongest version of the claim was never
-significant on its own (p = 0.48). The pattern argument is withdrawn.
+significant on its own (p = 0.48).
 
-**A real non-additivity remains, and it is larger than the earlier reading
-suggested.** In the narrowest band both arms sit at about +0.35 kcal/mol of
+**A real non-additivity remains.** In the narrowest band both arms sit at about
++0.35 kcal/mol of
 median positive deviation. That is not an artefact; it is present where the assay
 measures best. So the substitutions JANUS makes are not additive to within
 measurement error, and any bound in H4 has to carry roughly +0.35 kcal/mol of
@@ -191,8 +191,8 @@ median would overstate it by about a factor of two.
 
 **One sigma is a spread, not a bound.** About a third of designs fall outside it,
 so a five-substitution design's additive prediction sits within roughly plus or
-minus 11 kcal/mol at 95%, around an offset of +1.7. An earlier version of this
-note called the 5.49 figure a bound; it is not, and that wording is withdrawn.
+minus 11 kcal/mol at 95%, around an offset of +1.7. The 5.49 figure is a spread
+and not a bound.
 
 All three columns assume every pair deviates independently. The separation table
 above gives no reason to discount that, since deviation does not fall away with
@@ -205,8 +205,7 @@ the other is propagated.
 
 **H4 holds where it is measured.** Single substitutions inside the shell are
 non-inferior to random draws from the same shell on measured stability, on
-n = 58456 single mutants. That is a direct comparison on the assay's own numbers
-and it stands at full strength.
+n = 58456 single mutants, a direct comparison on the assay's own numbers.
 
 **Per-design aggregate stability prediction is imprecise.** For the five or six
 substitutions this method makes at the operating point, the additive prediction
@@ -217,5 +216,5 @@ footnote.
 The direction is the safer one. Positive deviation means a design scored
 additively is underestimated rather than overestimated, so the error runs toward
 more stable than predicted. **JANUS can say its substitutions are individually
-non-inferior. It cannot promise a stability-neutral design**, and the paper says
-both.
+non-inferior. It cannot promise a stability-neutral design**, and both are
+reported.

@@ -4,7 +4,7 @@ The parser solves the codon layer exactly for any fixed protein, and it does so
 in milliseconds. What it cannot do is optimise a term that fails to decompose
 over lattice nodes: mRNA folding, because base pairs form at arbitrary range, and
 the protein-level liabilities, because they are functions of the whole residue
-sequence. Those terms have to be searched.
+sequence. Those terms are searched here.
 
 Two searches are here and they differ only in acceptance order. ``optimise``
 visits positions in a fixed order and takes the best admitted substitution at
@@ -12,10 +12,9 @@ each before moving on. ``best_improvement`` finds the best move over the whole
 chain before taking any. Both re-solve the codon layer exactly after every move,
 so the codon layer is never the approximate part.
 
-``optimise`` is the default, chosen on measurement rather than taste. Over 447
-backbones the two reach objectives within 1.2 percent of each other, and
-``optimise`` gets there on 437 evaluations against 3121. The landscape is benign
-enough that the cheaper ordering suffices. What the parser contributes is not the
+``optimise`` is the default, chosen on measurement. Over 447 backbones it
+reaches a median 99.9 percent of the gain ``best_improvement`` attains, in 437
+objective evaluations against 3,121. What the parser contributes is not the
 ordering but the exact codon layer inside either one, and the exact optimum the
 result is measured against.
 """

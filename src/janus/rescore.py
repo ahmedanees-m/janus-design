@@ -1,7 +1,7 @@
 """Tier 2: rescoring k-best candidates under terms the parser cannot carry.
 
-The parser proposes a small, high-quality candidate set from an astronomically
-large space; terms that do not decompose over lattice nodes rank it. The
+The parser proposes a small, high-quality candidate set from a space too large
+to enumerate; terms that do not decompose over lattice nodes rank it. The
 initiation window and the whole-transcript folding energy are scored here, and so
 is the protein-level liability panel, which arrives as a caller-supplied function
 so the panel can be swapped without touching the ranking.

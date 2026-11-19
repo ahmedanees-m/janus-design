@@ -84,7 +84,7 @@ replace, and the two property-aware models raise it more than the plain one.**
 That is the second point on the axis, and it says the effect is not MoMPNN
 specifically.
 
-The reading has to stay narrow. SolubleMPNN's notion of solubility is a training
+The comparison is narrow. SolubleMPNN's notion of solubility is a training
 set filtered to soluble proteins; MoMPNN's is preference alignment against
 solubility and thermostability labels; and the panel here is low-complexity
 content, repeats, exposed hydrophobic surface, hydrophobic runs and degron load.
@@ -128,22 +128,20 @@ exactly the terms no proposal model is optimising.
 
 ## The search arms, including the one that ties
 
-Rejection sampling recovers 70% of the joint gain from 2000 draws. That is
-Baseline 0 and it is a strong baseline, worth saying plainly: most of what the
-lattice buys here is available to anyone willing to sample the same shell and rank
-it. What the lattice adds is the remaining 30%, at a fifth of the wall clock, with
-a guarantee attached to the codon layer.
+Rejection sampling recovers 70% of the joint gain from 2000 draws. Most of what
+the lattice buys here is therefore available to anyone sampling the same shell
+and ranking it. What the lattice adds is the remaining 30%, at a fifth of the
+wall clock, with a guarantee attached to the codon layer.
 
-**Coordinate descent recovers 100%.** At -8.973 against the joint arm's -8.911 it
-is within 1.2% of the objective, on 437 evaluations against 3121 and 0.353 seconds
-against 2.329. Both are local searches over the same neighbourhood, differing only
+**Coordinate descent recovers a median 99.9% of the joint gain**, on 437
+evaluations against 3,121 and 0.353 seconds against 2.329. Both are local searches over the same neighbourhood, differing only
 in acceptance order. On this landscape the joint arm's extra thoroughness buys
 +0.06 of objective for seven times the compute.
 
 That is a finding about the search, not about the lattice. Both arms are the joint
 lattice and both beat the fixed-protein DP on 447 of 447. It says the landscape is
-benign enough that a cheap ordering suffices, which is useful to report and which
-nothing in the paper's claims depends on. It also says which arm should be the
+benign enough that a cheap ordering suffices, which no reported claim depends
+on. It also says which arm should be the
 default: **coordinate descent is the better engineering choice on measured
 grounds**, and the exact parser remains what solves the codon layer inside it and
 supplies the optimum the exchange rate is quoted against.

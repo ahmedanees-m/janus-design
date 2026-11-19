@@ -21,9 +21,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
+from baselines import PDBLIKE, TIER1, coordinate_descent, make_objective, read_backbone
 
-from baselines import (PDBLIKE, TIER1, coordinate_descent, make_objective,
-                       read_backbone)
 from janus import design, hosts
 from janus.lattice import amino_acid_shell
 from janus.objectives.mpnn import load_unconditional
@@ -104,11 +103,10 @@ def main():
         for delta in args.deltas:
             shell = amino_acid_shell(marginals, delta)
             admitted = statistics.mean(len(s) for s in shell)
-            best = timed(lambda: design(marginals, host, weights=TIER1,
-                                        delta=delta, k=1), args.repeats)
-            kbest = timed(lambda: design(marginals, host, weights=TIER1,
-                                         delta=delta, k=args.kbest),
-                          args.repeats)
+            best = timed(lambda m=marginals, d=delta: design(
+                m, host, weights=TIER1, delta=d, k=1), args.repeats)
+            kbest = timed(lambda m=marginals, d=delta: design(
+                m, host, weights=TIER1, delta=d, k=args.kbest), args.repeats)
             row = {"set": args.set, "backbone": name, "length": len(native),
                    "delta": delta, "total_entropy": entropy,
                    "mean_shell": admitted,
@@ -131,9 +129,10 @@ def main():
                     "violations_codon_dp": len(pinned.violations),
                     "violations_joint": len(moved.violations),
                     "residues_moved": sum(a != b for a, b in
-                                          zip(moved.protein, pinned.protein)),
-                    "identity_to_native": sum(a == b for a, b in
-                                              zip(moved.protein, native)) / len(native),
+                                          zip(moved.protein, pinned.protein, strict=True)),
+                    "identity_to_native": sum(
+                        a == b for a, b in zip(moved.protein, native, strict=True)
+                    ) / len(native),
                     "search_seconds": time.perf_counter() - started,
                     "evaluations": evaluations,
                 })

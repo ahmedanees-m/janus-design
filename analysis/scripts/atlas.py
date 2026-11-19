@@ -28,8 +28,8 @@ from pathlib import Path
 import biotite.structure as struc
 import biotite.structure.io.pdb as pdb
 import numpy as np
-
 from features import gene_features, protein_features
+
 from janus import hosts
 from janus.genetic_code import SYNONYMOUS
 from janus.objectives.proteostasis import load_classes

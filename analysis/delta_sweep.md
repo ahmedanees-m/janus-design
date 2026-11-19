@@ -43,7 +43,7 @@ was not chosen with this measurement in hand.
 **The spread is enormous.** At delta 1 the tenth percentile gains 0.41 and the
 ninetieth gains 14.23, a factor of 34. On some backbones the residue freedom is
 worth very little and on others a great deal. A median is a poor summary of this
-distribution and the paper should not lead with one alone.
+distribution and is reported with the percentile band around it.
 
 ## Where the freedom is spent
 

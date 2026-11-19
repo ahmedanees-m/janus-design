@@ -6,8 +6,9 @@ weight scale 20 August 2026.
 
 mRNA folding cannot enter the parser: base pairs form at arbitrary range, so a
 path's folding energy is not a sum over its positions. The two-tier design has
-the parser propose and folding rank. That is worth doing only if a Tier-1 prefix
-of size N holds better folding candidates than N draws from the same shell.
+the parser propose and folding rank, which is informative only if a Tier-1
+prefix of size N holds better folding candidates than N draws from the same
+shell.
 
 Both arms use the parser. The sampling arm draws a residue sequence from the
 tempered marginals within the shell and then optimises its codons exactly with
@@ -24,11 +25,10 @@ region of 0.125 to 0.5 are quoted on that normalised scale. The two tables were
 therefore on different axes.
 
 Measured over the ranked pool, the spread ratio Tier-1 to initiation has median
-0.2752 (10th percentile 0.1577, 90th 0.4738). The first run's grid of 0.1 / 0.3 /
-1.0 lands at roughly **0.36 / 1.09 / 3.63** on the normalised scale. Its
-strongest setting sat about seven times above the top of the defensible operating
-region, and only its weakest setting was inside it. Everything below is re-run
-with `lambda` read on the normalised scale.
+0.2752 (10th percentile 0.1577, 90th 0.4738). An unnormalised grid of 0.1 / 0.3 /
+1.0 lands at roughly **0.36 / 1.09 / 3.63** on the normalised scale, so only the
+lowest of the three falls inside the operating region. The values below read
+`lambda` on the normalised scale throughout.
 
 ## Parser prefix against sampling, at matched folding evaluations
 
@@ -46,7 +46,7 @@ so compare within a column and not across the table.
 
 ## Where the two-tier design holds
 
-Across the whole defensible operating region, 0.125 to 0.5, the parser prefix is
+Across the whole operating region, 0.125 to 0.5, the parser prefix is
 the better candidate pool at every budget from one evaluation to a thousand,
 winning on 60% to 100% of backbones. Its margin narrows as the budget grows, as
 it must, since both arms converge on the same shell.
@@ -89,25 +89,27 @@ backbones, and by the top of it on a fifth.
 
 ## Exchange rate
 
-What opening the initiation window costs in fold compatibility.
+What opening the initiation window costs in fold compatibility, on the k-best
+prefix pool this experiment ranks. Medians over 120 backbones.
 
 | lambda | initiation opened | Tier-1 paid |
 |---|---|---|
-| 0.125 | +0.600 kcal/mol | 0.0067 nats |
-| 0.25 | +2.100 kcal/mol | 0.0344 nats |
-| 0.5 | +2.650 kcal/mol | 0.0778 nats |
-| 1.0 | +2.650 kcal/mol | 0.1003 nats |
-| 4.0 | +2.650 kcal/mol | 0.1036 nats |
+| 0.125 | +1.450 kcal/mol | 0.0078 nats |
+| 0.25 | +2.000 kcal/mol | 0.0362 nats |
+| 0.5 | +2.500 kcal/mol | 0.0735 nats |
+| 1.0 | +2.500 kcal/mol | 0.0985 nats |
+| 2.0 | +2.600 kcal/mol | 0.1153 nats |
+| 4.0 | +2.600 kcal/mol | 0.1160 nats |
 
-Median values. The window saturates at about 2.65 kcal/mol of opening: past a
-normalised weight of 0.5 the extra weight buys almost no further energy and only
-costs Tier-1 score. At the operating point 2.1 kcal/mol costs 0.034 nats, and the
-90th percentile opens 5.01 kcal/mol for 0.149. The shell is large enough to buy
-the gene-level term almost free, which is what H2 asserts, and the saturation
-point is a better argument for the operating region than the sweep alone.
+The window saturates beyond a weight of 0.5, holding at 2.50 kcal/mol through a
+weight of 1.0 and reaching 2.60 at the top of the sweep while the Tier-1 cost
+keeps rising. At the operating weight of 0.25, 2.00 kcal/mol costs 0.0362 nats
+out of a median budget of 92.58, which is the sense in which the shell buys the
+gene-level term cheaply. The same rate measured on the prefix plus shell draws,
+and the saturation behaviour of both pools, is in `analysis/normalisation.md`.
 
 ## Files
 
 - `analysis/scripts/rescore_recall.py`, `--normalised`
-- `janus-data/processed/rescore_recall.json`, first run, raw units
 - `janus-data/processed/rescore_recall_normalised.json`, 720 rows
+- `janus-data/processed/expression_prefix.json`, the exchange-rate table above

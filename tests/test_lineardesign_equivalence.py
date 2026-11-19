@@ -27,8 +27,8 @@ import pytest
 
 from janus import Weights, design
 from janus.genetic_code import AA_ALPHABET, SYNONYMOUS
-from janus.objectives import assemble
 from janus.lattice import build
+from janus.objectives import assemble
 
 LINEARDESIGN = importlib.util.find_spec("LinearDesign") or importlib.util.find_spec("lineardesign")
 

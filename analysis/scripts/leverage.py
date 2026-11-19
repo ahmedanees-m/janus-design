@@ -1,4 +1,4 @@
-"""H2b: does design freedom sit where the gene-level objective can use it?
+"""Positional leverage of the gene-level terms, against positional entropy.
 
 Leverage at position i is the range of a gene-level term reachable by varying
 that position alone, with every other position held at the Tier-1 optimum. H2b
@@ -16,8 +16,8 @@ import numpy as np
 from scipy.stats import spearmanr
 
 from janus import Weights, design, hosts
-from janus.genetic_code import CODON_TO_AA, SYNONYMOUS, gc_fraction
-from janus.lattice import amino_acid_shell, build
+from janus.genetic_code import SYNONYMOUS, gc_fraction
+from janus.lattice import amino_acid_shell
 from janus.objectives import mrna
 from janus.objectives.mpnn import load_unconditional
 

@@ -4,7 +4,7 @@ MegaScale folding free energies, 19 August 2026.
 
 Mutant names carry a position whose numbering is offset against the synthesised
 construct by a per-parent amount. The offset is recovered by agreement between
-the stated wild-type residue and the translated construct rather than assumed,
+the stated wild-type residue and the translated construct,
 and a parent is used only when at least 95 percent of its mutants agree. 710 of
 the 713 backbones carrying measurements resolved; the remaining three did not
 and were dropped.
@@ -50,8 +50,8 @@ and 21,195 substitutions, and negligible in size: the destabilisation rate below
 The correct statement is therefore that JANUS substitutions are **not more
 destabilising** than random draws from the same shell, with the lower interval
 bound excluding any disadvantage, and are indistinguishable from ProteinMPNN
-sampling. An earlier draft said "measurably less destabilising"; that overstated
-an effect of 0.054 and has been withdrawn.
+sampling. An effect of 0.054 does not support a claim of measurably less
+destabilising.
 
 The median substitution is neutral in all three arms. H4 holds as structural
 neutrality, which is what it claimed.

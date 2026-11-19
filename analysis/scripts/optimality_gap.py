@@ -1,4 +1,4 @@
-"""How much of the objective does cheap search leave on the table?
+"""Shortfall of heuristic search from the exact lattice optimum.
 
 The parser gives the exact optimum; the same DP over negated weights gives the
 worst attainable path. The two fix the range the objective spans on a backbone,

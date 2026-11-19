@@ -1,10 +1,9 @@
-"""Do the substitutions JANUS proposes cost measured stability?
+"""Measured stability cost of the substitutions the joint search selects.
 
 MegaScale reports folding free energy for single mutants of each parent, so a
 substitution's cost is the difference between the mutant and the wild type,
 negative when destabilising. Mutant names carry a position, and the numbering is
-verified against the translated construct before any of it is used rather than
-assumed.
+verified against the translated construct before use.
 
 Comparators are drawn from the same shell so the contrast isolates which residue
 was chosen and not how many substitutions were made.
@@ -70,7 +69,7 @@ def load_measurements(parquet_dir):
 
 def infer_offset(construct, mutations):
     """Mutant-name positions are offset against the construct by a per-parent
-    amount. Recover it by agreement rather than assuming a convention."""
+    amount. The sign is recovered by agreement with the stated wild type."""
     best, score = None, 0
     for offset in range(-5, 30):
         agree = sum(
@@ -206,7 +205,7 @@ def summarise(rows, parents):
 
     if len(values["janus"]) and len(values["shell_random"]):
         stat = mannwhitneyu(values["janus"], values["shell_random"], alternative="greater")
-        print(f"\n  one-sided test that JANUS substitutions are not more destabilising")
+        print("\n  one-sided test that JANUS substitutions are not more destabilising")
         print(f"  than random draws from the same shell: p = {stat.pvalue:.4g}")
     if len(values["janus"]) and len(values["mpnn_sample"]):
         stat = mannwhitneyu(values["janus"], values["mpnn_sample"], alternative="greater")

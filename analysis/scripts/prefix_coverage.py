@@ -1,7 +1,7 @@
-"""What the Tier-1 prefix keeps, measured against a much wider pool.
+"""Coverage of the Tier-2 optimum by the Tier-1 k-best prefix.
 
-Rescoring can only reorder what the parse returned, so the question is whether
-the prefix the parse returns already contains the candidates the second tier
+Rescoring can only reorder what the parse returned, so what the two-tier design
+rests on is whether the prefix already contains the candidates the second tier
 would choose. This scores the Tier-1 k-best prefix and a large uniform draw from
 the same shell under the full objective, and reports where the best candidate in
 the union sits in the Tier-1 ordering, how much of the Tier-2 top is inside the
@@ -16,8 +16,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
-
 from baselines import PDBLIKE, TIER1, make_objective, read_backbone
+
 from janus import design, hosts
 from janus.objectives.mpnn import load_unconditional
 from janus.objectives.proteostasis import load_classes

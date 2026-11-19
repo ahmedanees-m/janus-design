@@ -47,7 +47,7 @@ On the pooled natural arm, designs carry fewer degron motifs than matched
 natural domains, and accessibility weighting enlarges the effect rather than
 shrinking it, from -0.305 to -0.356 for N-degrons.
 
-**That effect does not survive the excision check and is withdrawn.** See below.
+**That effect does not survive the excision check.** See below.
 
 C-degrons show nothing at all, in any comparison. At 43 residues fewer than one
 chain in ten carries a C-end match under any ELM class.
@@ -134,7 +134,7 @@ axis 0.005 wide and an interval spanning plus and minus fourteen. Those features
 are reported as effect sizes only, and that decision is now justified by the
 intervals rather than by a suppression rule.
 
-Exposed hydrophobic area is the one headline feature where the statistic is
+Exposed hydrophobic area is the one feature in this panel where the statistic is
 sharp: designs sit at **1.50 [1.30, 1.56]**, past the natural end of the axis.
 The degron positions in this table are computed against the pooled natural arm
 and inherit the excision problem described above; they are not claimable.
@@ -308,10 +308,10 @@ columns throughout this note and in `atlas_stats.json`.
 H1 predicted that designs carry systematically higher gene-level and proteostatic
 liability than matched natural proteins.
 
-**On the proteostatic half the answer is null.** An earlier draft reported
-designs as carrying measurably less degron burden; that was an artefact of
-comparing against excised domains, and it is withdrawn. Against the whole-protein
-arm the pooled weighted degron effect is -0.107 [-0.30, +0.11] and does not
+**On the proteostatic half the answer is null.** Designs read as carrying
+measurably less degron burden against excised domains alone, which the excision
+check attributes to the excision. Against the whole-protein arm the pooled
+weighted degron effect is -0.107 [-0.30, +0.11] and does not
 exclude zero. Per family, only EEHEE clears correction, at -0.603 [-0.92, -0.12]
 and q = 0.045. No family is enriched: the hallucination family sits at +0.148
 [-0.11, +0.45] and its trRosetta subset at +0.232 [-0.09, +0.53]. H5's feature

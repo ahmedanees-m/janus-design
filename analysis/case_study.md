@@ -111,7 +111,7 @@ The practical claim lives in the first rows. The first residue moved is worth
 residues reach +2.16. Running to a local optimum takes 21 residues in *E. coli*
 and 22 in HEK293, which leaves identity to the design at 0.52 and 0.49. At that
 point it is a redesign rather than a codon optimisation of an existing design,
-and the small-budget rows are the defensible operating point.
+and the small-budget rows are the operating point.
 
 ## Files
 
@@ -165,7 +165,7 @@ open the 5' window here; the codon layer already did that, +0.225 kcal/mol on it
 own. In HEK293 initiation does improve, +0.42 and +1.03, so the split between the
 two terms is host-dependent.
 
-The first three rows are the operating regime and are what the paper quotes.
+The first three rows are the operating regime and are what is reported.
 Running to a local optimum takes 21.33 residues and leaves identity at 0.519,
 which is a redesign rather than an optimisation, and the +4.6755 combined-objective
 figure for the full run should not be read as what the method offers a user with a

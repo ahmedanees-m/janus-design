@@ -1,11 +1,11 @@
-"""What the amino-acid freedom is worth, as a function of how much of it there is.
+"""Attained objective as a function of the size of the amino-acid shell.
 
 Delta zero collapses the shell to the per-position marginal argmax, so the
 lattice degenerates to a fixed-protein codon DP and the search has no residue
 move available to it. Every delta above zero is the joint lattice. Holding the
-whole objective fixed and sweeping delta therefore prices the amino-acid axis
-directly, and decomposing the attained objective by term shows where the freedom
-is being spent rather than only how much.
+whole objective fixed and sweeping delta therefore measures the amino-acid axis
+directly, and decomposing the attained objective by term records where the
+freedom is spent as well as how much of it is used.
 
 The objective here is the complete one. Tier 1 (MPNN marginal, CAI, codon-pair
 bias) enters the parser and is exact. Initiation-window folding and the five

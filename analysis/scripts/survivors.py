@@ -1,19 +1,20 @@
-"""Does the atlas describe designs, or only the ones that worked?
+"""Liability load in designs that passed experimental characterisation and those
+that did not.
 
 The 447 backbones in the atlas come from published, experimentally characterised
 sets, so every one of them survived whatever filtering its authors applied. If
 liability load is part of what selection removes, the atlas understates what a
-generator actually emits, and the gap between designs and natural proteins is
-larger than measured.
+generator emits, and the gap between designs and natural proteins is larger than
+measured.
 
-The Garcia benchmark answers this directly, since it carries both the designs
-that worked and the designs that did not. Splitting its 614 on the experimental
+The Garcia benchmark carries both the designs that worked and the designs that
+did not. Splitting its 614 on the experimental
 outcome and comparing liability features between the two arms measures how much
 of the liability load selection is removing. Structures come from the ESMFold run
 so the accessibility-weighted features are available, with a pLDDT floor.
 
-A caveat this cannot escape: a design that failed may have failed for reasons
-that also produce a bad model, so the structure-derived features are entangled
+One confound is not removable: a design that failed may have failed for reasons
+that also produce a poor model, so the structure-derived features are entangled
 with the outcome. The sequence-only features are not, and both are reported.
 """
 
@@ -25,12 +26,12 @@ import json
 from pathlib import Path
 
 import numpy as np
-
-from atlas_stats import bootstrap_delta, benjamini_hochberg, cliffs_delta
+from atlas_stats import benjamini_hochberg, bootstrap_delta, cliffs_delta
 from features import protein_features
+from predictive import read_model
+
 from janus.objectives import liability
 from janus.objectives.proteostasis import load_classes
-from predictive import read_model
 
 STANDARD = set("ACDEFGHIKLMNPQRSTVWY")
 DROP = {"n_end_class", "c_end_residue"}
@@ -126,7 +127,7 @@ def main():
         print(f"{record['feature']:<36}{record['delta_failed_vs_succeeded']:>9.3f}"
               f"{f'[{low:+.2f}, {high:+.2f}]':>20}"
               f"{record['median_failed']:>10.3f}{record['median_succeeded']:>10.3f}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     determined = [r for r in results if r["determined"]]
     positive = [r for r in determined if r["delta_failed_vs_succeeded"] > 0]

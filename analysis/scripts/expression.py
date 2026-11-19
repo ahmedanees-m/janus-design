@@ -1,9 +1,9 @@
-"""What the initiation opening is worth in units a wet-lab reader can price.
+"""The initiation opening expressed as a predicted fold-change in output.
 
 The exchange rate is measured in kcal/mol of initiation-window folding energy
-bought per nat of unconditional fold log-likelihood. Neither unit means anything
-to someone deciding whether to order a gene, so this converts the first one into
-a predicted fold-change in protein output.
+bought per nat of unconditional fold log-likelihood. Neither unit is directly
+interpretable as expression, so the folding energy is converted into a predicted
+fold-change in protein output.
 
 The conversion is the apparent Boltzmann factor from the Ribosome Binding Site
 Calculator, which relates translation initiation rate to the total free energy of
@@ -12,7 +12,7 @@ would be 1/RT, about 1.62 mol/kcal at 37 C; fitted against measured expression i
 the crowded interior of E. coli it is 0.45 plus or minus 0.05 mol/kcal (Salis,
 Mirsky and Voigt 2009).
 
-This is an extrapolation and not a measurement, in three specific ways.
+The conversion is an extrapolation and not a measurement, in three respects.
 
 The RBS Calculator's dG_total is a composite of ribosome-mRNA hybridisation,
 spacing, standby site and the cost of unfolding mRNA structure. The term measured
@@ -23,9 +23,9 @@ the model intends but is not an equivalence anyone has measured for this term.
 beta was fitted in E. coli, so nothing here transfers to the HEK293 host, whose
 initiation is cap-scanning rather than Shine-Dalgarno.
 
-And a fold-change in initiation rate is not a fold-change in yield. Initiation is
+A fold-change in initiation rate is not a fold-change in yield. Initiation is
 rate-limiting for expression over a wide range but not everywhere, and the
-prediction saturates where something else becomes limiting.
+prediction saturates where another step becomes limiting.
 """
 
 from __future__ import annotations

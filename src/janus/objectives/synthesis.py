@@ -79,7 +79,9 @@ def _homopolymers(sequence: str, limits: dict[str, int]) -> list[Violation]:
         allowed = limits.get(sequence[start])
         if allowed is not None and run > allowed:
             found.append(
-                Violation("homopolymer", f"{run} consecutive {sequence[start]} (max {allowed})", start, end)
+                Violation("homopolymer",
+                          f"{run} consecutive {sequence[start]} (max {allowed})",
+                          start, end)
             )
         start = end
     return found
@@ -90,7 +92,8 @@ def _forbidden_sites(sequence: str, sites: dict[str, str]) -> list[Violation]:
     for name, motif in sites.items():
         start = sequence.find(motif)
         while start != -1:
-            found.append(Violation("forbidden_site", f"{name} ({motif})", start, start + len(motif)))
+            found.append(Violation("forbidden_site", f"{name} ({motif})",
+                                   start, start + len(motif)))
             start = sequence.find(motif, start + 1)
     return found
 
@@ -105,7 +108,9 @@ def _repeats(sequence: str, minimum: int) -> list[Violation]:
         first = seen.setdefault(kmer, start)
         if first != start:
             found.append(
-                Violation("repeat", f"{minimum} bp repeat of {kmer} first seen at {first}", start, start + minimum)
+                Violation("repeat",
+                          f"{minimum} bp repeat of {kmer} first seen at {first}",
+                          start, start + minimum)
             )
     return _merge_overlapping(found)
 

@@ -3,17 +3,16 @@
 H5. Garcia, Dixit and Rocklin benchmark, bioRxiv 2025.07.29.667290 v2
 supplementary CSV, CC-BY. 614 designs, 269 successful (43.8 percent).
 
-An earlier note recorded this as blocked behind a publisher paywall. That was
-wrong twice over: the version of record is open under CC-BY, and the preprint
-supplement, which is where the file was taken from, is open as well. It carries
-sequences, labels, ESMFold pLDDT, ProteinMPNN scores and fold class.
+The version of record is open under CC-BY, as is the preprint supplement the
+file was taken from. It carries sequences, labels, ESMFold pLDDT, ProteinMPNN
+scores and fold class.
 
 ## Scope, narrowed by what the benchmark contains
 
 The benchmark supplies sequences but no backbones. All 614 were folded with
 ESMFold so the accessibility weighting could be tested; the section below reports
 what it is worth, which is close to nothing once the obvious circularity is
-controlled. The headline score remains the sequence-only one.
+controlled. The reported score remains the sequence-only one.
 
 28 sequence-level features, five-fold cross-validated, logistic regression with
 standardisation. Protein-level repeat content was added to the set, since it
@@ -37,9 +36,10 @@ and on the right side of zero.
 
 ## Which liabilities carry it
 
-A single AUC over a bag of features says nothing about which liability is doing
-the work, and there was a tension that needed it. The atlas finds designs are not
-degron-enriched against natural proteins, while this score adds AUC over pLDDT.
+A single AUC over a bag of features does not identify which liability is doing
+the work, and two results here need that separation: the atlas finds designs are
+not degron-enriched against natural proteins, while this score adds AUC over
+pLDDT.
 Each family reported alone, and with itself removed from the full set:
 
 | family | features | alone | without | drop |
@@ -51,10 +51,9 @@ Each family reported alone, and with itself removed from the full set:
 | length | 1 | 0.574 | 0.671 | +0.001 |
 
 **Degrons carry none of it.** Alone they are at chance, 0.521, and removing all
-twelve of them changes the score by -0.001. The tension dissolves: H1 finds no
+twelve of them changes the score by -0.001. The two results agree: H1 finds no
 degron enrichment between groups and H5 finds no degron discrimination within
-designs, which is one consistent finding rather than two awkward ones. The paper
-should not describe this score as degron-driven.
+designs. The score is not degron-driven.
 
 What does carry it is bulk composition, the largest single contribution at
 +0.045, then complexity and repeat content at +0.038, then the non-degron ELM
@@ -84,16 +83,16 @@ intervals:
 Only Foldit is determined. There the two intervals do not overlap and pLDDT is
 genuinely the stronger discriminator.
 
-**The dissociation claimed in an earlier draft is withdrawn.** That draft read
-pLDDT at 0.500 on R3x3_BP2 against a liability score of 0.758 as the two being
-informative on different topologies. On 17 designs those intervals are
-[0.19, 0.83] and [0.42, 1.00]; they overlap across almost their whole range and
-establish nothing. The pooled comparison is the claimable result.
+**The per-topology dissociation is not supported.** Reading pLDDT at 0.500 on
+R3x3_BP2 against a liability score of 0.758 as the two being informative on
+different topologies does not survive the intervals: on 17 designs they are
+[0.19, 0.83] and [0.42, 1.00], overlapping across almost their whole range. The
+pooled comparison is the claimable result.
 
-## Contamination cuts in our favour, and cannot be stratified away
+## Contamination is asymmetric and cannot be stratified away
 
-R13 asked for a PDB release-date stratification separating designs inside
-ProteinMPNN and ESMFold training data from those outside it. That split cannot be
+A PDB release-date stratification would separate designs inside ProteinMPNN and
+ESMFold training data from those outside it. That split cannot be
 made here: the benchmark is drawn from 11 studies published between 2012 and
 2021, so essentially every design predates both models' training cutoffs. There
 is no clean stratum.
@@ -170,7 +169,7 @@ The 614 figure is the right one for the deployment question, because in practice
 designs without confident models do arrive and do have to be filtered.
 
 Combined beats both components in both cohorts, 0.796 and 0.721, at p below 1e-4.
-That is the defensible headline: the liability score carries information pLDDT
+That is what the comparison supports: the liability score carries information pLDDT
 does not, most visibly where pLDDT has least to say.
 
 Attribution on the restricted cohort tells the same story as the sequence-only

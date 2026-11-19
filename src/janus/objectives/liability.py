@@ -2,16 +2,14 @@
 
 Every score here is a function of the residue sequence and, where structure
 matters, of a fixed per-residue accessibility. None of them depends on the
-codons. That is the point: for these terms a fixed-protein codon designer has an
-achievable improvement of exactly zero, and the joint lattice is necessary rather
-than marginal.
+codons, so for these terms a fixed-protein codon designer has an achievable
+improvement of exactly zero.
 
 Higher is worse throughout, so the rescoring tier subtracts them.
 """
 
 from __future__ import annotations
 
-import re
 from collections import Counter
 
 import numpy as np

@@ -20,8 +20,8 @@ structure enters, of a fixed per-residue accessibility from the backbone:
 | `degron` | accessibility-weighted ELM degron motif load |
 
 None depends on the codons. A fixed-protein codon optimiser's achievable
-improvement on any of them is zero, and the design of the experiment is to
-measure that zero rather than assert it.
+improvement on any of them is zero, and the experiment measures that zero
+against what the joint arm attains.
 
 ## Two arms, one search
 
@@ -153,11 +153,10 @@ codon layer's reach.** Excluding exposed hydrophobic surface, which is nearly
 universal and might be argued to be a property of small proteins rather than a
 defect, it is still 91.5%.
 
-The condition is real and it is almost always met. The claim is not that the
-amino-acid layer always pays; it is that when a protein-level liability is present
-and removable the codon layer's achievable gain is zero and the joint lattice's is
-not, at a price of well under a nat, and that this describes 443 of 447 designs
-rather than a favourable subset.
+The result is conditional on a removable liability being present, and that
+condition holds for 443 of 447 designs. Where it holds, the codon layer's
+achievable gain is zero and the joint lattice's is not, at a price of well under
+a nat. The amino-acid layer does not pay on every design.
 
 ## Files
 

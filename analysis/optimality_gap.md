@@ -6,9 +6,9 @@ host *E. coli* BL21(DE3), 19 August 2026.
 Every method optimises the same function. Shortfall is a fraction of the range
 the objective spans on that backbone, from the parser optimum down to the worst
 attainable path, both computed exactly by running the DP over negated weights.
-Shared setup is excluded; search time is matched. The parser solves a 43-residue
-lattice in a median 1.6 ms, so a matched budget is about 2 posterior draws or
-450 annealing steps, and 100x is 190 draws or 39,000 steps.
+Shared setup is excluded; search time is matched. The matched budget is 2
+posterior draws or 450 annealing steps per backbone, and the 100x arm is 190
+draws or 39,000 steps.
 
 ## Objectives added one at a time
 
@@ -53,26 +53,23 @@ three outcomes in the plan: a guarantee rather than a large practical win.
 
 ## Outcome
 
-The folding experiment answered the question in the
-only way it can be answered given the decision not to build the nucleotide
-lattice: at a folding weight of 1.0, sampling beats the parser prefix from ten
-evaluations onward. The folding term does not rescue the algorithmic claim, it
-bounds it, and the paper's shape has already been set on the middle outcome.
+Without a nucleotide-level lattice the folding term can only bound the
+algorithmic claim rather than support it: at a folding weight of 1.0, sampling
+beats the parser prefix from ten evaluations onward.
 
-**Boundary condition, stated plainly.** The algorithmic claim rests on codon-pair
+**Boundary condition.** The algorithmic claim rests on codon-pair
 coupling as the only term inside the lattice that couples positions. The mRNA
 folding term, which is the reason lattice parsing exists in the mRNA-design
 literature, is realised in the rescoring tier. Within the lattice the parser
 leads every heuristic at matched budget by about one percent of the attainable
-range at a defensible codon-pair weight, consistently and on every backbone.
+range at the operating codon-pair weight, consistently and on every backbone.
 
-## What the parser is actually for in this paper
+## What the parser contributes
 
-The stronger answer to "if the term that needs a lattice is not in your lattice,
-why have a lattice" is not the one percent. It is that **the parser is a
-measurement instrument here, not only an optimiser.**
+The one percent is not the whole of it. **The parser is a measurement instrument
+here as well as an optimiser.**
 
-The exchange rate that the paper leads with, roughly 2.5 kcal/mol of
+The reported exchange rate, roughly 2.5 kcal/mol of
 initiation-window opening for a tenth of a nat of fold log-likelihood, is a
 statement about the distance between two optima. It can only be quoted because
 Tier 1 returns the exact optimum of the fold and codon objective, so the cost of

@@ -1,4 +1,4 @@
-"""Gate 8: how far the surrogate ranking is from the conditional one.
+"""Distance between the surrogate ranking and the conditional one.
 
 The parser optimises the sum of unconditional single-pass marginals. The model's
 own likelihood is autoregressive and order dependent. This measures the distance
@@ -91,7 +91,8 @@ def main():
 
     print("\n=== how well the conditional ranking is defined at all ===")
     print(f"  spread across 10 decoding orders, per sequence: "
-          f"median {np.median(spread):.4f}, max {np.max([r['order_spread_max'] for r in rows]):.4f}")
+          f"median {np.median(spread):.4f}, "
+          f"max {np.max([r['order_spread_max'] for r in rows]):.4f}")
     print(f"  median conditional range across the candidate set: "
           f"{np.median([r['conditional_range'] for r in rows]):.4f}")
     ratio = np.median(spread) / np.median([r["conditional_range"] for r in rows])

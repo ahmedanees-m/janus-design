@@ -1,4 +1,4 @@
-"""Every aggregate the manuscript quotes from the run outputs, in one place.
+"""Every reported aggregate, recomputed from the run outputs in one place.
 
 Each block prints the statistic, how it was aggregated and the file it came
 from, so a number in the text can be traced to a column without opening the

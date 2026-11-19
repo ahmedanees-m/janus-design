@@ -1,11 +1,11 @@
-"""Does the parser's ordering help find good folding candidates, or would
-sampling the same shell do as well?
+"""Folding candidates in the Tier-1 prefix against draws from the same shell.
 
 mRNA folding cannot enter the parser: base pairs form at arbitrary range, so a
 path's folding energy is not a sum over its positions. The two-tier design has
-the parser propose candidates and folding rank them. That is only worth doing if
+the parser propose candidates and folding rank them, which is informative only if
 a Tier-1 prefix of size N contains better folding candidates than N draws from
-the same shell, so both are given the same number of folding evaluations.
+the same shell. Both are therefore given the same number of folding
+evaluations.
 """
 
 from __future__ import annotations

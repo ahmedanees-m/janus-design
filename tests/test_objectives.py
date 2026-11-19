@@ -84,7 +84,8 @@ def test_unobserved_codons_are_floored_not_dropped(ecoli):
 
 
 def test_score_terms_reports_cai_as_a_geometric_mean(ecoli):
-    best = {aa: max(family, key=lambda c: ecoli.relative_adaptiveness[c]) for aa, family in SYNONYMOUS.items()}
+    best = {aa: max(family, key=lambda c: ecoli.relative_adaptiveness[c])
+            for aa, family in SYNONYMOUS.items()}
     cds = "".join(best[aa] for aa in "MAKLVGT")
     marginals = np.log(np.full((len(cds) // 3, 20), 1 / 20))
     assert score_terms(cds, ecoli, marginals)["cai"] == pytest.approx(1.0)

@@ -36,14 +36,14 @@ that is the whole amino-acid contribution at this weight.
 
 The amino-acid axis is what distinguishes this work from fixed-protein codon
 optimisation, and at the cheap operating point it contributes roughly an eighth
-of the initiation gain. That has to be said plainly rather than left for a
-reviewer to derive from an identity number.
+of the initiation gain. The identity number alone does not carry that, so the
+split is reported directly.
 
 The axis is not inert; it is expensive. The residue arm reaches 2.5 kcal/mol at a
 weight of 0.125 and 4.9 at 0.5, more than the joint arm in both cases, but pays 8
 to 10 nats of Tier-1 score to do it against the joint arm's 0.05 to 0.11. Roughly
 a hundredfold more, for about twice the gain. The frontier is what prices that
-trade, and the defensible operating point sits precisely where the amino-acid
+trade, and the operating point sits precisely where the amino-acid
 axis matters least.
 
 The correct summary is therefore: for the 5' initiation term specifically, most

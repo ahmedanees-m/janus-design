@@ -74,14 +74,13 @@ download.
 ## Garcia, Dixit and Rocklin 2026
 
 *Protein Science* 35(2):e70453, published 20 January 2026, doi:10.1002/pro.70453.
-Preprint bioRxiv 2025.07.29.667290 (CC-BY), v1 posted 1 August 2025 and v2 posted
-9 August 2025; the copy held in `external/papers` is v1. The preprint carries no
-data availability statement and links no supplementary files from the article
-page, and the journal version appeared blocked at the time, so the 614-design
-benchmark was downloaded by hand from the preprint supplement on 20 August 2026.
-The version of record is in fact open under CC-BY at the publisher, checked
-against Unpaywall on 13 September 2026. Cite the journal version and record the
-preprint as the route by which the data was obtained.
+Preprint bioRxiv 2025.07.29.667290 (CC-BY), v1 posted 1 August 2025, v2 posted
+9 August 2025. The preprint carries no data availability statement and links no
+supplementary files from the article page, so the 614-design benchmark was taken
+from the preprint supplement on 20 August 2026. The version of record is open
+under CC-BY at the publisher, confirmed against Unpaywall on 13 September 2026,
+and is the citation; the preprint is the route by which the data was
+obtained.
 
 ## PDB de novo subset
 

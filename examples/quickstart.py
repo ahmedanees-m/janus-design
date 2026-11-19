@@ -1,6 +1,8 @@
 """Smallest end-to-end run: marginals in, coding sequences out, no downloads."""
 import time
+
 import numpy as np
+
 import janus
 
 rng = np.random.default_rng(0)

@@ -1,34 +1,33 @@
-"""H5: does a sequence-level liability score add to ESMFold pLDDT?
+"""Discrimination of a sequence-level liability score against ESMFold pLDDT.
 
 The benchmark supplies sequences and labels but no backbones. Without a structure
 the accessibility weighting that carries the atlas cannot be applied and every
 motif feature is a raw count, which is the weaker form of the score. With
 `--structures` pointing at ESMFold models of the same sequences, the weighted
-form is available too and both are reported, so the narrowing is measured rather
-than assumed.
+form is available as well, and both are reported.
 
 A weighting taken from a predicted structure is only as good as the prediction,
 so models below a pLDDT floor do not supply accessibility.
 
-That creates a circularity the comparison has to control. The structures come
-from ESMFold and the comparator is ESMFold pLDDT, so any feature read off the
-model carries some of the confidence signal: a design the model folds badly gets
-an extended, highly accessible structure, and its accessibility-weighted
-liabilities are then partly a restatement of a low pLDDT. Two controls are
-reported. The weighted arm is repeated on only the designs with usable models, so
-that no part of the gain comes from which designs had a model at all; and the
-features read off the model are reported as their own family in the attribution,
-so their contribution is visible rather than folded into the liability total.
+Structures and comparator share a source, which the comparison controls for. The
+structures come from ESMFold and the comparator is ESMFold pLDDT, so any feature
+read off the model carries some of the confidence signal: a design the model
+folds badly gets an extended, highly accessible structure, and its
+accessibility-weighted liabilities are then partly a restatement of a low pLDDT.
+Two controls are reported. The weighted arm is repeated on only the designs with
+usable models, so that no part of the gain comes from which designs had a model
+at all, and the features read off the model form their own family in the
+attribution, so their contribution is separable from the liability total.
 
 Comparison is against ESMFold pLDDT, which the source paper found to be the best
 single discriminator, by DeLong's test on correlated ROC curves.
 
-A single AUC for a bag of forty features says nothing about which liability is
-doing the work, and there is a tension that needs it: the atlas finds designs are
-not degron-enriched against natural proteins, while this score adds AUC over
-pLDDT. Those are compatible, one being a between-group comparison and the other
-within-design, but which features carry the discrimination decides whether the
-two results tell one story. So each family of features is reported alone and with
+A single AUC over forty features does not identify which liability carries the
+discrimination, and two results here need that separation: the atlas finds
+designs are not degron-enriched against natural proteins, while this score adds
+AUC over pLDDT. The two are compatible, one being a between-group comparison and
+the other within-design, and which features carry the discrimination determines
+how they relate. Each family of features is therefore reported alone and with
 itself removed.
 """
 
@@ -39,7 +38,10 @@ import csv
 import json
 from pathlib import Path
 
+import biotite.structure as struc
+import biotite.structure.io.pdb as pdb
 import numpy as np
+from features import protein_features
 from scipy import stats
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, roc_auc_score
@@ -47,10 +49,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-import biotite.structure as struc
-import biotite.structure.io.pdb as pdb
-
-from features import protein_features
 from janus.objectives import liability
 from janus.objectives.proteostasis import load_classes
 
@@ -254,7 +252,8 @@ def main():
     weighted_rows = [build(record, True) for record in records] if structures else None
 
     names = sorted({k for r in rows for k in r
-                    if isinstance(r.get(k), (int, float)) and k not in ("success", "plddt", "mpnn")})
+                    if isinstance(r.get(k), (int, float))
+                    and k not in ("success", "plddt", "mpnn")})
     matrix = np.array([[float(r.get(k, 0.0)) for k in names] for r in rows])
     matrix = np.nan_to_num(matrix)
     labels = np.array([r["success"] for r in rows])
@@ -321,9 +320,9 @@ def main():
                 "combined": float(roc_auc_score(subset_labels, together)),
             }
             entry["gain"] = entry["weighted"] - entry["sequence"]
-            # Whether the liability score beats pLDDT is a different question from
-            # whether weighting helps, and it reverses between the two cohorts, so
-            # it is tested inside each rather than only on the pooled set.
+            # The score against pLDDT and the effect of weighting are separate
+            # comparisons, and they reverse between the two cohorts, so each is
+            # tested within a cohort as well as on the pooled set.
             for name, values in (("sequence", sequence_only), ("weighted", with_model),
                                  ("combined", together)):
                 _, _, p_value = delong(subset_labels, values, subset_plddt)

@@ -19,7 +19,6 @@ import json
 from pathlib import Path
 
 import numpy as np
-
 from cluster_bootstrap import SKIP, cliffs_delta, cluster_of, grouped, interval
 
 FEATURES = ["all_degron_density_weighted", "n_degron_density_weighted",

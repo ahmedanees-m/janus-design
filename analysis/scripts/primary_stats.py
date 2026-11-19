@@ -1,13 +1,14 @@
-"""The two statistics the plan committed to that were still missing.
+"""The two primary statistics named in the analysis plan.
 
-Section 8.3 named the normalised position on the random-to-natural axis, with
-bootstrap intervals, as H1's primary statistic. Every table so far has reported
-design-against-natural deltas instead.
+Section 8.3 of analysis_plan.md names the normalised position on the
+random-to-natural axis, with bootstrap intervals, as the primary statistic for
+H1. It is computed here alongside the design-against-natural deltas the feature
+tables carry.
 
-The H5 fold stratification is the most quotable result there and the most likely
-to be underpowered: 614 designs across 53 classes is about a dozen each, and an
-AUC of 0.5 on a dozen designs is indistinguishable from noise. Per-class
-intervals decide whether the dissociation can be stated at all.
+The H5 fold stratification is thinly populated: 614 designs across 53 classes is
+about a dozen each, and an AUC of 0.5 on a dozen designs is not separable from
+noise. Per-class bootstrap intervals are reported with it, so the stratification
+is read against its own precision.
 """
 
 from __future__ import annotations
@@ -18,13 +19,13 @@ import json
 from pathlib import Path
 
 import numpy as np
+from features import protein_features
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from features import protein_features
 from janus.objectives.proteostasis import load_classes
 
 PRIMARY = [

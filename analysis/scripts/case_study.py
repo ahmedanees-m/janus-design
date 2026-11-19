@@ -1,4 +1,4 @@
-"""Cross-host redesign: what changes when a design is turned into a gene.
+"""Cross-host redesign, separated into a codon layer and an amino-acid layer.
 
 Three arms on the same backbones, so the two layers can be told apart:
 
@@ -8,9 +8,9 @@ Three arms on the same backbones, so the two layers can be told apart:
 3. the joint search over residues and codons
 
 Arm 2 minus arm 1 is what the codon layer buys with the protein held fixed. Arm 3
-minus arm 2 is what the amino-acid layer adds on top. Reporting only 1 against 3,
-as the first version did, charges the amino-acid move for everything including
-the initiation energy the codon layer would have recovered on its own.
+minus arm 2 is what the amino-acid layer adds on top. Arm 1 against arm 3 alone
+would charge the amino-acid move for the initiation energy the codon layer
+recovers without it.
 """
 
 from __future__ import annotations
@@ -24,14 +24,14 @@ from pathlib import Path
 import biotite.structure as struc
 import biotite.structure.io.pdb as pdb
 import numpy as np
-
 from features import gene_features, protein_features
+
 from janus import Weights, design, hosts
 from janus.genetic_code import SYNONYMOUS
 from janus.objectives import liability, mrna
+from janus.objectives.mpnn import load_unconditional
 from janus.objectives.proteostasis import load_classes
 from janus.objectives.synthesis import violations
-from janus.objectives.mpnn import load_unconditional
 from janus.rescore import FoldingWeights, pool_scales, rescore
 from janus.sample import ShellSearch, shell_samples
 

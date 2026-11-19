@@ -1,11 +1,10 @@
 """Assemble a natural control arm of whole proteins, not excised domains.
 
-The natural arm the atlas currently uses is drawn from the MegaScale release,
-where most entries are domains cut out of larger chains: only 15 of 104 are whole
-UniProt entries, and the median covers 0.11 of its parent. A degron or a
-low-complexity window that sits outside the cut is invisible, and the excision
-analysis showed that is enough to flip the sign of the comparison. The control
-has to be proteins that are the whole thing.
+The natural arm drawn from the MegaScale release is mostly domains cut out of
+larger chains: only 15 of 104 are whole UniProt entries, and the median covers
+0.11 of its parent. A degron or a low-complexity window outside the cut is
+invisible, and the excision analysis finds that sufficient to reverse the sign of
+the comparison. This arm is therefore built from entries that are complete.
 
 Selection is by annotation rather than by hand. Reviewed Swiss-Prot entries of 26
 to 74 residues, protein-level evidence, not fragments, with an AlphaFold model,
@@ -13,8 +12,8 @@ and carrying no signal peptide, propeptide, transit peptide or peptide feature. 
 cleavage filters are what make them whole: an entry with a cleaved region has a
 precursor sequence and a different mature protein, and slicing one out of the
 other would reintroduce the excision problem at a smaller scale. What survives is
-the natural population of proteins that are born and stay this short, which is
-the population the designs belong to.
+the population of natural proteins that are translated at this length and remain
+there, which is the population the designs sit in.
 
 Transmembrane and intramembrane annotations are excluded as well. Without that
 the band fills with recently annotated membrane microproteins, whose hydrophobic

@@ -1,11 +1,11 @@
-"""Which layer buys the initiation term: residues or codons?
+"""Attribution of the initiation gain to the residue layer or the codon layer.
 
-At the defensible operating weight the selected candidate is 98.7 percent
-identical to the Tier-1 optimum in amino acids, which on a 43-residue design is
-about half a substitution. If the gain is coming almost entirely from synonymous
-codon changes then the amino-acid axis, which is what distinguishes this work
-from fixed-protein codon optimisation, is contributing little at the operating
-point. That has to be measured rather than assumed.
+At the operating weight of 0.25 the selected candidate is 98.6 percent identical
+to the Tier-1 optimum in amino acids, which on a 43-residue design is about half
+a substitution. A gain arising almost entirely from synonymous codon changes
+would leave the amino-acid axis, which is what separates this work from
+fixed-protein codon optimisation, contributing little at the operating point.
+The three arms below separate the two layers.
 
 Three arms, all ranked under the same normalised objective:
 
@@ -27,7 +27,6 @@ from pathlib import Path
 import numpy as np
 
 from janus import Weights, design, hosts
-from janus.genetic_code import CODON_TO_AA
 from janus.objectives import mrna
 from janus.objectives.mpnn import load_unconditional
 from janus.rescore import FoldingWeights, pool_scales, rescore
@@ -153,10 +152,10 @@ def summarise(rows):
 
     print("\n=== enumeration check ===")
     median_length = int(np.median(list(lengths.values())))
-    print(f"  the initiation window covers codons 0 to 12, so exhaustive search over")
-    print(f"  one substitution there is 13 positions x 19 alternatives x their codons,")
-    print(f"  on the order of a thousand candidates. The parser is not needed to find")
-    print(f"  that; it is needed to know the exact optimum the substitution is measured")
+    print("  the initiation window covers codons 0 to 12, so exhaustive search over")
+    print("  one substitution there is 13 positions x 19 alternatives x their codons,")
+    print("  on the order of a thousand candidates. The parser is not needed to find")
+    print("  that; it is needed to know the exact optimum the substitution is measured")
     print(f"  against, over a space of roughly 3.5^{median_length} residue assignments.")
 
 

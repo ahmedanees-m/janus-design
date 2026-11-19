@@ -4,15 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "janus-design"
-version = "0.1.0"
+version = "0.2.0"
 description = "Joint amino-acid and codon design for de novo proteins"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 authors = [
-    { name = "Anees Ahmed Mahaboob Ali", email = "ahmedaneesm@gmail.com" },
-    { name = "Radhakrishnan Delhibabu", email = "rdelhibabu@vit.ac.in" },
-    { name = "Everette Jacob Remington Nelson", email = "everette.nelson@vit.ac.in" },
+    { name = "Anees Ahmed Mahaboob Ali" },
+    { name = "Radhakrishnan Delhibabu" },
+    { name = "Everette Jacob Remington Nelson" },
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

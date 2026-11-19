@@ -3,7 +3,6 @@
 [![tests](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml/badge.svg)](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml)
 [![python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
 [![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
-[![preprint](https://img.shields.io/badge/preprint-10.21203%2Frs.3.rs--10942775-00857c)](https://doi.org/10.21203/rs.3.rs-10942775/v1)
 
 Joint optimisation of amino acid and coding sequence for de novo designed proteins.
 
@@ -72,7 +71,7 @@ src/janus/                the package
 analysis/                 what was run, and what came out
   analysis_plan.md        feature panel, thresholds and tests, fixed beforehand
   limitations.md          what each result does not establish
-  audit.md                a normalisation defect, its blast radius, the re-runs
+  normalisation.md        term normalisation, and the candidate pool each rate uses
   data_audit.md           every input checked against its source
   *.md                    one note per experiment
   config.yaml             seeds, thresholds, resample counts
@@ -86,7 +85,7 @@ analysis/                 what was run, and what came out
     prefix_coverage.py    what the Tier-1 prefix keeps
     host_proteostasis.py  the bacterial N-end rule signal per arm
     excision_effects.py   the excised arm split by parent coverage
-    reported_values.py    every aggregate the paper quotes, in one place
+    reported_values.py    every reported aggregate, in one place
 
 tests/                    74 tests, 2 skipped: one needs the LinearDesign binary
 baselines/                the comparator arms that need their own environment
@@ -187,8 +186,8 @@ Synthesis constraints are checked, not weighted. A six-base restriction site
 spans up to three codons and a homopolymer limit of nine spans four, so neither
 decomposes over adjacent codon pairs and neither can live inside the parse. They
 are applied as a filter over the ranked list, which is why the interface returns
-a list: about half of any given pool passes every constraint, so a method
-returning a single sequence would violate one about half the time.
+a list: about two thirds of a ranked pool passes every constraint, while the
+single best-scoring sequence passes just under three fifths of the time.
 
 ## Hosts
 
@@ -223,7 +222,9 @@ that automaton so each position admits the codons of every amino acid within a
 log-probability tolerance of the marginal optimum, with each residue branch
 carrying its marginal as an additive node weight. The automaton is then
 amino-acid-degenerate as well as codon-degenerate, and parsing returns the best
-(protein, gene) pair jointly. A 43-residue lattice solves in about 1.6 ms.
+(protein, gene) pair jointly. Parse time is linear in chain length at a held
+admitted set: over the 447 designed backbones, whose median length is 43, the
+median parse is 8.7 ms at a budget of 0.5 nats and 16.9 ms at 1.0, on one core.
 
 Optimisation runs in two tiers. The first parses the lattice exactly over the
 terms that decompose over nodes and adjacent-codon edges and returns the *k* best
@@ -308,13 +309,10 @@ analysis and figure scripts, and the dependency manifests.
 ## Citation
 
 ```
-Mahaboob Ali AA, Delhibabu R, Nelson EJR.
-Joint optimisation of amino acid and coding sequence for de novo designed
-proteins. Research Square, 8 September 2026. doi:10.21203/rs.3.rs-10942775/v1
+Mahaboob Ali AA, Delhibabu R, Nelson EJR. janus-design: joint optimisation over
+amino acid and coding sequence for de novo designed proteins. Version 0.2.0.
+https://github.com/ahmedanees-m/janus-design
 ```
-
-The preprint is not peer reviewed. It will be replaced here by the journal
-version once one exists.
 
 `CITATION.cff` carries the machine-readable form. Releases are tagged in this
 repository; cite the tag for a specific version. The data deposit carries its own

@@ -44,14 +44,13 @@ no k at which a larger candidate set stops helping, because widening k widens th
 band, so the within-band correlation must rise. Measured, it climbs from -0.115
 at k = 10 to 0.060 at k = 500, tracking the restriction prediction in shape.
 
-## A correction to our own earlier reading
+## Decoding-order noise is not the relevant confound
 
-We previously argued that decoding-order noise could not explain the collapse,
-and used that as the defence. That argument is about variance in the conditional
-score and is a different question from the width of the window being correlated
-inside. It is true that order noise is small, 0.023 per-residue nats against a
-wide-window conditional range of 0.63, but it was never the relevant confound and
-should not have been presented as the answer.
+Decoding-order noise is a statement about variance in the conditional score,
+which is a different question from the width of the window the correlation is
+measured inside. The noise is small, 0.023 per-residue nats against a
+wide-window conditional range of 0.63, but its size does not bear on the
+collapse. Range restriction does, and is what the section above measures.
 
 ## What follows
 

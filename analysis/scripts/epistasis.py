@@ -1,12 +1,13 @@
-"""Does additivity hold for pairs of substitutions inside the shell?
+"""Additivity of pairs of substitutions drawn from the shell.
 
-JANUS proposes several substitutions at once and scores them independently, so
-whether their measured effects add matters. MegaScale carries double mutants for
-a subset of parents; each is compared against the sum of its two singles.
+The joint search proposes several substitutions at once and scores them
+independently, so whether their measured effects add is tested here. MegaScale
+carries double mutants for a subset of parents; each is compared against the sum
+of its two singles.
 
-The measured bias is upward, and more so on natural parents than on designed
-ones. Two readings fit that: genuine epistasis, milder for the milder
-substitutions the shell admits, or a measurement artefact of the assay's range.
+An upward bias in that comparison admits two readings: genuine epistasis, milder
+for the milder substitutions the shell admits, or a measurement artefact of the
+assay's range. The design below separates them.
 
 The deposited values are not clipped. Their distribution is smooth from -15 to
 +18 with no pile-up at either end, so the release reports extrapolated free
@@ -16,11 +17,10 @@ finite protease series, and a variant whose true stability sits far outside the
 middle of that series is extrapolated, with an error that grows with distance and
 cannot run symmetrically once the variant is already fully cleaved.
 
-That makes the test a restriction rather than a threshold. Each record carries
+The test is therefore a restriction rather than a threshold. Each record carries
 where its parent, its additive prediction and its observation sit on the measured
-scale, and the comparison is repeated on progressively narrower central bands. If
-the bias is a range effect it shrinks as the band tightens. If it is epistasis it
-does not.
+scale, and the comparison is repeated on progressively narrower central bands. A
+range effect shrinks as the band tightens; epistasis does not.
 """
 
 from __future__ import annotations
@@ -33,9 +33,8 @@ from pathlib import Path
 
 import numpy as np
 import pyarrow.parquet as pq
-
 from ddg import infer_offset, load_measurements
-from janus.genetic_code import translate
+
 from janus.lattice import amino_acid_shell
 from janus.objectives.mpnn import load_unconditional
 
@@ -125,7 +124,7 @@ def mildness(rows):
     The reconciliation on offer is that shell substitutions are the ones
     ProteinMPNN considers plausible, so they should perturb stability less, and
     milder substitutions should be more additive. Both halves are testable and
-    both are tested here rather than assumed.
+    both are tested here.
     """
     from scipy.stats import mannwhitneyu
 

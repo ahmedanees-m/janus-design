@@ -1,8 +1,8 @@
 """Effect sizes for the stability claims, and the random-to-natural positions.
 
-A p value on 18,000 substitutions says nothing about whether the difference
-matters. The Gate 4 commitment was to a Cliff's delta floor of 0.15, and that
-floor applies to every claim in the paper rather than only to the degron panel.
+A p value on 18,000 substitutions does not establish that a difference is
+material, so every claim carries a Cliff's delta against a floor of 0.15. The
+floor applies across the panel and not to the degron terms alone.
 """
 
 from __future__ import annotations

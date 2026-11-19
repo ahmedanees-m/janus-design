@@ -4,9 +4,8 @@ All 862 MegaScale AlphaFold backbones, 447 designed and 415 natural,
 26 to 74 residues. Leverage measured on 150 designed backbones. 19 August 2026.
 
 Secondary structure is biotite's P-SEA rather than DSSP, which needs a binary
-unavailable in the container. Relative accessibility is Shrake and Rupley with
-the theoretical maxima of Tien et al. 2013. The substitution is recorded here
-rather than left implicit.
+the pinned image does not carry. Relative accessibility is Shrake and Rupley
+with the theoretical maxima of Tien et al. 2013.
 
 ## How much freedom there is
 

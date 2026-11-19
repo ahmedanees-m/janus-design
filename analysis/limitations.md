@@ -28,16 +28,15 @@ than a deep k-best prefix does.
 
 The crossover is at a spread-normalised weight of about 1.0, which is roughly
 twice the top of the operating region these terms are used at, 0.125 to 0.5.
-Inside that region the parser prefix wins on 60 to 100 percent of backbones at
+Inside that region the parser prefix wins on 73 to 99 percent of backbones at
 every budget from one evaluation to a thousand. Outside it, the architecture is
 the wrong shape and the alternatives are broad sampling with exact codon
 optimisation, or annealing on the combined objective. See
 `analysis/rescore_recall.md`.
 
-An earlier version of this table reported the crossover at a weight of 1.0 on an
-unnormalised scale, where the two terms were combined in nats and kcal/mol
-directly. That value was 3.63 in normalised units. The bound is real; it sits
-further out than the earlier table implied.
+On an unnormalised scale, where the two terms are combined in nats and kcal/mol
+directly, the crossover reads at a weight of 1.0; the same point is 3.63 in
+normalised units. The normalised scale is the one quoted throughout.
 
 ## The folding term is in Tier 2, not in the lattice
 
@@ -65,18 +64,17 @@ positive and, in the central band of the assay where measurement is best, about
 **+0.35 kcal/mol** on both natural and designed parents, with a per-pair spread
 near 1.9 kcal/mol.
 
-An earlier reading held that epistasis was milder on designed parents inside the
-shell, +0.186 against +0.850. That gradient does not survive restriction to the
-well-measured band: the gap closes monotonically from +0.527 to -0.036 and is
-gone. **The pattern argument is withdrawn**, and the n=220 subset that carried
-its strongest form was never significant on its own (p = 0.48).
+Epistasis reads as milder on designed parents inside the shell, +0.186 against
++0.850, but that gradient does not survive restriction to the well-measured
+band: the gap closes monotonically from +0.527 to -0.036 and is gone. The n=220
+subset that carried its strongest form was never significant on its own
+(p = 0.48).
 
 Nor is that subset evidence of anything else. Its 95% interval is [-0.272,
 +0.243], eleven times wider than the designed estimate's and containing it
 outright, so it is consistent with the larger bias rather than contradicting it.
-An earlier note described it as unbiased to plus or minus 0.26 kcal/mol, which
-presented a wide interval around a small point estimate as though it established
-absence. That wording is withdrawn.
+Describing it as unbiased to plus or minus 0.26 kcal/mol would present a wide
+interval around a small point estimate as though it established absence.
 
 The reconciliation that would have helped is not available either. Shell
 substitutions would be more additive if they were milder, and deviation does grow
@@ -96,13 +94,12 @@ quantities and both are quoted: the offset uses the mean, since the expectation 
 a sum is the sum of expectations, and the interval is a spread rather than a
 bound.
 
-An earlier version of this section called the one-sigma figure of 5.49 kcal/mol a
-bound. It is not; about a third of designs fall outside it. That wording is
-withdrawn.
+The one-sigma figure of 5.49 kcal/mol is a spread and not a bound: about a
+third of designs fall outside it.
 
 The claim therefore splits in two. **H4 holds where it is measured**: single
 substitutions inside the shell are non-inferior to random draws from the same
-shell on measured stability, n = 58456, and that stands at full strength.
+shell on measured stability, n = 58456.
 **Per-design aggregate stability prediction is imprecise**, by the offset and
 spread above, on domains whose whole folding free energy is a few kcal/mol. The
 direction is the safer one, since positive deviation means a design scored
@@ -119,7 +116,7 @@ of 22 determined features are higher in the failures, including exposed
 hydrophobic area at +0.140 and weighted degron load at +0.120. Both are atlas
 features, so those comparisons are survivor-biased.
 
-The two findings the paper rests on are not. Low-complexity fraction, at -0.033
+The two determining features are not. Low-complexity fraction, at -0.033
 [-0.11, +0.05], and protein repeat, at +0.077 [-0.01, +0.16], establish nothing:
 designs that failed carry them at the same rate as designs that succeeded.
 Selection does not filter on the liabilities the amino-acid axis clears. See

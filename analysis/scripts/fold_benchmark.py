@@ -3,12 +3,12 @@
 The Garcia benchmark supplies sequences, labels and a pLDDT, but no coordinates.
 Without a structure the atlas's accessibility weighting cannot be applied, so
 every motif feature in the H5 score is a raw count and the score is the weaker
-sequence-only form. Weighting roughly doubled the degron effect in the atlas, so
-whether it helps here is a question the sequence-only run cannot answer.
+sequence-only form. Weighting approximately doubles the degron effect in the
+atlas, and the sequence-only run cannot report whether it does so here.
 
 This produces the coordinates. pLDDT is recorded alongside so the structures can
-be filtered on model confidence rather than trusted uniformly: a liability read
-off a 40-pLDDT model is a liability of the prediction, not of the design.
+be filtered on model confidence rather than used uniformly: a liability read off
+a 40-pLDDT model is a property of the prediction, not of the design.
 """
 
 from __future__ import annotations

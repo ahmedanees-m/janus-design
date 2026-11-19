@@ -30,14 +30,14 @@ import re
 from pathlib import Path
 
 import numpy as np
+from features import protein_features
+from predictive import DROP, delong, load_classes, read_model
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from predictive import DROP, delong, load_classes, read_model
-from features import protein_features
 from janus.objectives import liability
 
 CAMPAIGNS = [

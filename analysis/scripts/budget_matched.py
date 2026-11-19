@@ -1,11 +1,11 @@
 """Every arm at a matched budget of full-objective evaluations.
 
-A sampler given one draw and a search given thousands are not the same
-expenditure, so a table that puts them side by side says as much about the
-budget as about the method. This scores a batch of draws from each stochastic
-model under the objective the search arms optimise, and reports the best of the
-first n for a ladder of n, which puts every arm on one axis: how good a sequence
-is returned for how many evaluations of the full objective.
+A sampler given one draw and a search given thousands are not matched in
+expenditure, so a side-by-side table reflects the budget as much as the method.
+This scores a batch of draws from each stochastic model under the objective the
+search arms optimise and reports the best of the first n for a ladder of n,
+which places every arm on one axis: objective attained against evaluations of
+the full objective spent.
 
 The codon layer is solved exactly for every draw, so a sampled residue sequence
 is scored at its own best coding sequence rather than at an arbitrary one.
@@ -20,8 +20,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
-
 from baselines import PDBLIKE, TIER1, make_objective, read_backbone
+
 from janus import design, hosts
 from janus.objectives import mrna
 from janus.objectives.mpnn import load_unconditional
@@ -94,7 +94,7 @@ def main():
                         fixed=dict(enumerate(native)), anchor=native)[0]
         reference = total(pinned)
 
-        def solve(protein):
+        def solve(protein, marginals=marginals, native=native, search=search):
             if len(protein) != len(native) or "X" in protein:
                 return None
             if any(r not in search.slots[i] for i, r in enumerate(protein)):
@@ -103,7 +103,9 @@ def main():
                               anchor=protein)[0]
             return search.best(protein)
 
-        def emit(arm, temperature, draws, candidate, evaluations):
+        def emit(arm, temperature, draws, candidate, evaluations, name=name,
+                 native=native, total=total, reference=reference,
+                 burden=burden):
             rows.append({
                 "backbone": name, "arm": arm, "temperature": temperature,
                 "draws": draws, "length": len(native),
@@ -113,8 +115,9 @@ def main():
                 "burden": burden(candidate.protein),
                 "violations": len(candidate.violations),
                 "initiation": mrna.initiation_energy(candidate.cds, host),
-                "identity_to_design": sum(a == b for a, b in
-                                          zip(candidate.protein, native)) / len(native),
+                "identity_to_design": sum(
+                    a == b for a, b in zip(candidate.protein, native, strict=True)
+                ) / len(native),
                 "evaluations": evaluations,
             })
 

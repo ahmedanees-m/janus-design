@@ -4,8 +4,8 @@ Motif definitions come from the Eukaryotic Linear Motif resource rather than
 being transcribed from the primary papers, so they are versioned and match what
 other groups scan with.
 
-Accessibility weighting matters here. The peptide screens that defined the
-C-degron classes fuse a short peptide to a reporter, leaving a free solvent
+The peptide screens that defined the C-degron classes fuse a short peptide to a
+reporter, leaving a free solvent
 exposed C terminus, which is the precondition for recognition. In a folded
 miniprotein the same residues may be packed against the core. Counting raw motif
 hits transfers a peptide result to a folded domain without that correction and

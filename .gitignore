@@ -7,8 +7,7 @@ dist/
 .venv/
 venv/
 
-# Figures, the code that draws them, and the manuscript are kept locally and
-# deliberately never enter this repository or any archive made from it.
+# Figure output and the scripts that draw it live outside this repository.
 FIGURES_README.md
 analysis/scripts/figstyle.py
 analysis/scripts/make_figures.sh
@@ -21,6 +20,5 @@ figures/
 *.tiff
 *.eps
 *.svg
-*_manuscript*.md
-*manuscript_draft*
+*.docx
 :memory:.ses

@@ -1,9 +1,9 @@
-"""Gate 5: how much sequence freedom each backbone carries, and where.
+"""Sequence freedom carried by each backbone, and its distribution along the chain.
 
 Secondary structure comes from biotite's P-SEA implementation rather than DSSP,
-which needs a binary that is not available in this container. The substitution is
-recorded rather than left implicit. Relative accessibility uses the Shrake and
-Rupley construction with the theoretical maxima of Tien et al. 2013.
+which requires a binary the pinned image does not carry. Relative accessibility
+uses the Shrake and Rupley construction with the theoretical maxima of Tien et
+al. 2013.
 """
 
 from __future__ import annotations
@@ -143,11 +143,14 @@ def summarise(rows):
     ok = ~np.isnan(sasa)
     buried = ok & (sasa < 0.15)
     exposed = ok & (sasa > 0.40)
-    print(f"  buried  (rel SASA below 0.15) n={buried.sum():>6}  mean entropy {entropy[buried].mean():.3f}")
-    print(f"  exposed (rel SASA above 0.40) n={exposed.sum():>6}  mean entropy {entropy[exposed].mean():.3f}")
+    print(f"  buried  (rel SASA below 0.15) n={buried.sum():>6}  "
+          f"mean entropy {entropy[buried].mean():.3f}")
+    print(f"  exposed (rel SASA above 0.40) n={exposed.sum():>6}  "
+          f"mean entropy {entropy[exposed].mean():.3f}")
 
     from scipy.stats import spearmanr
-    print(f"  Spearman entropy against relative SASA: {spearmanr(entropy[ok], sasa[ok]).statistic:.3f}")
+    print(f"  Spearman entropy against relative SASA: "
+          f"{spearmanr(entropy[ok], sasa[ok]).statistic:.3f}")
     print(f"  Spearman entropy against distance from a terminus: "
           f"{spearmanr(entropy, terminal).statistic:.3f}")
 

@@ -18,9 +18,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
+from baselines import PDBLIKE, TIER1, coordinate_descent, hill_climb, make_objective, read_backbone
 
-from baselines import (PDBLIKE, TIER1, coordinate_descent, hill_climb,
-                       make_objective, read_backbone)
 from janus import design, hosts
 from janus.genetic_code import translate
 from janus.objectives.mpnn import load_unconditional
@@ -113,7 +112,7 @@ def main():
             records.append({
                 "arm": arm, "backbone": name, "length": len(protein),
                 "protein": protein, "cds": cds or "",
-                "identity_to_design": sum(a == b for a, b in zip(protein, native))
+                "identity_to_design": sum(a == b for a, b in zip(protein, native, strict=True))
                 / len(native),
             })
 

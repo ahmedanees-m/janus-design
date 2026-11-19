@@ -25,7 +25,9 @@ backbones of different length.
 ## Frontier
 
 Cost and gain are measured against the Tier-1 optimum, which is the weight-zero
-selection.
+selection. Means over 120 backbones, on the k-best prefix plus shell draws. The
+same rows as medians, which is what the figure and the reported rate use, are in
+`analysis/normalisation.md`.
 
 | weight | Tier-1 given up (nats) | initiation opened (kcal/mol) | rate (kcal/nat) | identity to Tier-1 optimum | selected candidate clean |
 |---|---|---|---|---|---|
@@ -51,27 +53,21 @@ initiation-window opening for 0.054 nats**, averaged from the origin at
 residues unchanged. Going from 0.5 to 1.0 costs a further 3.7 nats to gain
 1.9 kcal/mol.
 
-The defensible operating region is a weight between 0.125 and 0.5, chosen from
-the curve rather than after the fact. That brackets the region a reviewer
-predicted from the unnormalised table.
+The operating region is a weight between 0.125 and 0.5, read off the curve.
 
 ## The exchange rate, restated
 
 Against the entropy budget it spends from, 0.054 nats out of a median 93 nats of
 design freedom per 43-residue chain is **0.058 percent of the budget** for
-2.19 kcal/mol of window opening. An earlier draft quoted roughly 2.5 kcal/mol for
-0.1 nats from an unnormalised run; the normalised frontier gives a better rate at
-a principled operating point.
+2.19 kcal/mol of window opening.
 
-Converting that into an expression fold-change would make the number quotable,
-and Kudla 2009 and Goodman 2013 both supply the necessary relationship between
-5' folding energy and protein output. That extraction has not been done, and a
-figure is not asserted here without it.
+The conversion of that opening into a predicted expression fold-change, and the
+caveats it carries, are in `analysis/expression.md`.
 
 ## Two things the frontier does not say
 
 **Synthesisability is a filter, by design, not a term.** The selected candidate
-is clean about half the time throughout the defensible region and the rise at
+is clean about half the time throughout the operating region and the rise at
 high weight is incidental, so the folding weight neither helps nor hurts here.
 That is the intended architecture rather than a shortcoming: a six-base
 restriction site spans three codons and a repeat check is global, so neither

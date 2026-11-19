@@ -5,7 +5,7 @@ a result that only holds at one setting is a result about the setting. This runs
 the shipped search under alternative weightings, one term at a time and then at
 random perturbations of all of them, and records what changes and what does not.
 
-Three statements are checked at every scheme rather than argued: the codon-only
+Three statements are checked at every scheme: the codon-only
 arm removes no protein-level liability, the joint arm attains more of the
 objective than the fixed-protein codon dynamic program, and synthesis violations
 fall. The rest is reported as a spread.
@@ -19,9 +19,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
+from baselines import LIABILITIES, PDBLIKE, coordinate_descent, make_objective, read_backbone
 
-from baselines import (LIABILITIES, PDBLIKE, coordinate_descent,
-                       make_objective, read_backbone)
 from janus import Weights, design, hosts
 from janus.objectives import liability, mrna
 from janus.objectives.mpnn import load_unconditional
@@ -48,7 +47,7 @@ def schemes(count, seed):
         factors = np.exp(rng.uniform(np.log(0.5), np.log(2.0), len(OPERATING)))
         out.append((f"random {i + 1}",
                     {k: OPERATING[k] * float(f)
-                     for k, f in zip(OPERATING, factors)}))
+                     for k, f in zip(OPERATING, factors, strict=True)}))
     return out
 
 
@@ -125,9 +124,9 @@ def main():
                 "initiation_codon_dp": mrna.initiation_energy(pinned.cds, host),
                 "initiation_joint": mrna.initiation_energy(moved.cds, host),
                 "identity_to_design": sum(a == b for a, b in
-                                          zip(moved.protein, native)) / len(native),
+                                          zip(moved.protein, native, strict=True)) / len(native),
                 "residues_moved": sum(a != b for a, b in
-                                      zip(moved.protein, pinned.protein)),
+                                      zip(moved.protein, pinned.protein, strict=True)),
                 "evaluations": evaluations,
                 **{f"removed_{k}": v for k, v in removed.items()},
             })
