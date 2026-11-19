@@ -2,24 +2,21 @@
 
 The benchmark pools eleven design studies, and success rates differ between them.
 Designs from one study share a design method, a laboratory and an expression
-protocol, so treating the 614 as independent draws can inflate an AUC: a score
-that happens to track campaign identity is rewarded for it. This is the same
-non-independence the atlas handles by resampling source proteins.
+protocol, so treating the 614 as independent draws can inflate an AUC.
 
 The released benchmark carries no study identifier. It carries a fold class, and
 fold classes are nested within studies, so two grouping levels are reported:
 
-``fold``      the 53 fold classes as shipped. No inference, but finer than a
-              study, so it under-corrects: two topologies from one laboratory
-              land in different groups.
+``fold``      the 53 fold classes as shipped. Finer than a study, so it
+              under-corrects: two topologies from one laboratory land in
+              different groups.
 ``campaign``  fold classes gathered by name stem, giving 13 groups. Closer to
-              study level and the more conservative of the two, but the mapping
-              is read off the naming and is not the authors' own label.
+              study level, but the mapping is read off the naming and is not the
+              authors' own label.
 
-Neither is exactly leave-one-study-out. Both replace the pooled estimate with one
-that never scores a design using a model trained on its own group, and both
-replace the record bootstrap with a bootstrap over groups.
-"""
+Neither is exactly leave-one-study-out. Both score no design using a model
+trained on its own group, and both replace the record bootstrap with a bootstrap
+over groups."""
 
 from __future__ import annotations
 
@@ -30,14 +27,14 @@ import re
 from pathlib import Path
 
 import numpy as np
+from features import protein_features
+from predictive import DROP, delong, load_classes, read_model
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from predictive import DROP, delong, load_classes, read_model
-from features import protein_features
 from janus.objectives import liability
 
 CAMPAIGNS = [

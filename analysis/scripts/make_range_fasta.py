@@ -1,11 +1,8 @@
 """Candidate sets spanning a wide range of unconditional score, as a control.
 
-The k-best set answers what the parser's own ranking is worth inside the band it
-searches. It cannot distinguish a surrogate that carries no information from one
-whose information is exhausted within 0.3 nats. This draws sequences from across
-the whole shell so the unconditional axis spans nats rather than tenths, which
-is the comparison that separates those two readings.
-"""
+The k-best set spans a narrow band of unconditional score. This draws sequences
+from across the whole shell instead, so the unconditional axis spans nats rather
+than tenths."""
 
 from __future__ import annotations
 

@@ -1,15 +1,14 @@
 """Effect sizes on each side of the excised arm's parent-coverage split.
 
-The excised control arm is drawn from natural MegaScale domains, most of which
-are fragments of a larger parent. A fragment presents a terminus to the solvent
-that was internal in the parent, so terminal features and the degron panel that
-reads them are not comparable across the two kinds of entry.
+Most entries in the excised arm are fragments of a larger parent. A fragment
+presents a terminus to the solvent that was internal in the parent, so terminal
+features and the degron panel that reads them are not comparable across the two
+kinds of entry.
 
 This splits the arm by how much of its UniProt parent each entry covers and
 reports Cliff's delta against the design set separately on each side, with
 cluster bootstrap intervals over source entries, the same resampling unit the
-pooled analysis uses.
-"""
+pooled analysis uses."""
 
 from __future__ import annotations
 
@@ -19,7 +18,6 @@ import json
 from pathlib import Path
 
 import numpy as np
-
 from cluster_bootstrap import SKIP, cliffs_delta, cluster_of, grouped, interval
 
 FEATURES = ["all_degron_density_weighted", "n_degron_density_weighted",

@@ -1,18 +1,12 @@
-"""Is the local collapse in rank correlation just range restriction?
-
-The surrogate correlates with the conditional model at 0.74 across the shell and
-at 0.06 inside the parser's top 500. Those are the same relationship seen
-through two window widths unless the data say otherwise, so the comparison to
-make is against what restriction alone predicts.
+"""Range restriction as an account of the local rank correlation.
 
 Thorndike's case II correction, applied forward, gives the correlation expected
 inside a narrower window from the wide-window correlation and the two spreads.
 The quantity that does not depend on window width is the residual scatter of the
-conditional score about its regression on the surrogate, and that is what should
-be reported instead of a correlation.
+conditional score about its regression on the surrogate, which is reported
+alongside it.
 
-Writes the numbers only. Plotting lives outside this repository.
-"""
+Writes numeric output only; plotting is outside this repository."""
 
 from __future__ import annotations
 
@@ -105,7 +99,7 @@ def main():
           f"{100 * np.mean(observed > predicted):.0f}%")
 
     print("\n=== the restriction-immune quantity ===")
-    print(f"  residual scatter of conditional about its regression on the surrogate:")
+    print("  residual scatter of conditional about its regression on the surrogate:")
     print(f"    median {np.median(residual):.2f} nats, "
           f"10th {np.percentile(residual, 10):.2f}, 90th {np.percentile(residual, 90):.2f}")
     print(f"  width of the parser's top-500 band: median {np.median(band):.2f} nats")

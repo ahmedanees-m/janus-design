@@ -1,53 +1,39 @@
-"""Every codon and joint design method, scored by one piece of code.
+"""Every codon and joint design method, scored through one path.
 
-Six arms over the same backbones and the same objective:
+Ten arms over the same backbones and the same objective:
 
-- **vendor**, the design's residue sequence with the highest
+- ``vendor``, the design's residue sequence with the highest
   relative-adaptiveness codon at every position
-- **CodonTransformer**, the same residue sequence, codons from the incumbent
-  learned codon optimiser, read from a file its own container produced
-- **rejection**, the best of N draws from the shell scored by the full objective,
-  which is what a method without a lattice would have to do
-- **codon DP**, the same residue sequence with the JANUS codon layer, pinned
-- **CodonMPNN**, the published codon-level inverse folding model, which chooses
-  residues and codons together from the backbone and so belongs with the joint
-  arms rather than the codon ones
-- **ProteinMPNN then codons**, residues sampled from the model whose marginals
-  define the lattice, codons then solved exactly for them
-- **SolubleMPNN then codons**, the same with the solubility-trained checkpoint
-- **MoMPNN then codons**, the same with the developability-aligned checkpoint
-- **coordinate descent**, a positionwise greedy pass that accepts the best
-  improving substitution at each position before moving on, rather than the best
-  move over the whole chain, with the codon layer re-solved exactly after each
-- **joint**, the full search, taking the best move over the whole chain each step
+- ``codontransformer``, the same residue sequence, codons from the learned
+  codon optimiser, read from a file its own container produced
+- ``codon_dp``, the same residue sequence with the JANUS codon layer, pinned
+- ``rejection``, the best of N draws from the shell scored by the full objective
+- ``codonmpnn``, the codon-level inverse folding model, which chooses residues
+  and codons together from the backbone
+- ``proteinmpnn``, residues sampled from the model whose marginals define the
+  lattice, codons then solved exactly for them
+- ``solublempnn``, the same with the solubility-trained checkpoint
+- ``mompnn``, the same with the developability-aligned checkpoint
+- ``coordinate_descent``, a positionwise greedy pass that accepts the best
+  improving substitution at each position before moving on, with the codon
+  layer re-solved exactly after each
+- ``joint``, the full search, taking the best move over the whole chain at each
+  step
 
-The first three hold the protein fixed and differ only in how they choose codons.
-The last four may move residues. Budgets are matched two ways and both are
-reported: wall-clock, and the number of full-objective evaluations, since the
-methods differ by orders of magnitude in cost per evaluation.
-
-Two things this comparison is not.
+The vendor, CodonTransformer and codon DP arms hold the protein fixed and differ
+only in how they choose codons. The rest may move residues. Budgets are matched
+two ways and both are reported: wall-clock, and the number of full-objective
+evaluations, since the methods differ by orders of magnitude in cost per
+evaluation.
 
 CodonTransformer does not optimise this objective. It predicts the codons a host
-would use, learned from natural genes, so scoring it here and finding it lower is
-close to circular. Its per-term columns are reported for that reason: what is
-informative is where it differs, not that it loses on a total it never saw.
+would use, learned from natural genes, so its per-term columns are reported and
+not its total alone.
 
-The coordinate-descent arm is not the conditional-ProteinMPNN alternation that
-the one comparable prior extension of this lattice used; both local searches below
-move over the same neighbourhood and differ only in acceptance order.
-
-Block alternation itself is included, in the only form this objective admits. A
-block scheme alternates optimising one block given the other, which needs the
-residue step to see what the codon step is optimising. An inverse folding model
-has no channel for that: it scores residues against a backbone and knows nothing
-of initiation windows, codon pairs or degron load. So alternation here collapses
-to one round, propose residues with the model and then solve the codon layer
-exactly for them, and running two arms of exactly that shape says what the
-alternative is worth. `proteinmpnn` proposes with the same model whose marginals
-define the lattice; `mompnn` proposes with the developability-aligned variant,
-which is the closest published thing to optimising these liabilities directly.
-"""
+The two proposal arms are a single round of alternation: residues proposed with
+a model, then the codon layer solved exactly for them. ``proteinmpnn`` proposes
+with the same model whose marginals define the lattice, ``mompnn`` with the
+developability-aligned variant."""
 
 from __future__ import annotations
 
@@ -134,9 +120,7 @@ def coordinate_descent(search, start, total, marginals, rounds):
 
     Positions are visited in descending marginal entropy and the best admitted
     substitution at each is taken before moving on, rather than the best move
-    over the whole chain being found first. Cheaper than the joint search by the
-    evaluations it skips, and the question is whether that costs anything in the
-    objective attained.
+    over the whole chain being found first.
     """
     order = np.argsort(-np.array([
         -(np.exp(row) * row).sum() for row in marginals
@@ -246,7 +230,9 @@ def main():
                                        native, args.pool, weights, rng)
         search = ShellSearch(marginals, host, TIER1, args.delta, anchor=native)
 
-        def record(arm, candidate, seconds, evaluations):
+        def record(arm, candidate, seconds, evaluations, name=name,
+                   marginals=marginals, native=native, total=total,
+                   burden=burden):
             rows.append({
                 "backbone": name, "arm": arm, "length": len(marginals),
                 "objective": total(candidate), "tier1": candidate.score,

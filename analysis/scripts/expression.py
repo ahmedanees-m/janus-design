@@ -1,9 +1,9 @@
-"""What the initiation opening is worth in units a wet-lab reader can price.
+"""The initiation opening expressed as a predicted fold-change in output.
 
 The exchange rate is measured in kcal/mol of initiation-window folding energy
-bought per nat of unconditional fold log-likelihood. Neither unit means anything
-to someone deciding whether to order a gene, so this converts the first one into
-a predicted fold-change in protein output.
+bought per nat of unconditional fold log-likelihood. Neither unit is directly
+interpretable as expression, so the folding energy is converted into a predicted
+fold-change in protein output.
 
 The conversion is the apparent Boltzmann factor from the Ribosome Binding Site
 Calculator, which relates translation initiation rate to the total free energy of
@@ -12,21 +12,9 @@ would be 1/RT, about 1.62 mol/kcal at 37 C; fitted against measured expression i
 the crowded interior of E. coli it is 0.45 plus or minus 0.05 mol/kcal (Salis,
 Mirsky and Voigt 2009).
 
-This is an extrapolation and not a measurement, in three specific ways.
-
-The RBS Calculator's dG_total is a composite of ribosome-mRNA hybridisation,
-spacing, standby site and the cost of unfolding mRNA structure. The term measured
-here is the folding energy of the initiation window alone. Applying beta to it
-assumes that window's energy enters dG_total roughly one for one, which is what
-the model intends but is not an equivalence anyone has measured for this term.
-
-beta was fitted in E. coli, so nothing here transfers to the HEK293 host, whose
-initiation is cap-scanning rather than Shine-Dalgarno.
-
-And a fold-change in initiation rate is not a fold-change in yield. Initiation is
-rate-limiting for expression over a wide range but not everywhere, and the
-prediction saturates where something else becomes limiting.
-"""
+beta is fitted in E. coli, so it does not transfer to the HEK293 host, and it is
+applied here to the initiation window alone rather than to the calculator's
+composite dG_total. The output is a predicted initiation rate, not a yield."""
 
 from __future__ import annotations
 
@@ -61,11 +49,9 @@ def main():
     if bool(args.recall) == bool(args.sweep):
         raise SystemExit("give exactly one of --recall or --sweep")
 
-    # The two sources rank different pools, and the exchange rate is a property of
-    # the pool as much as of the weight, so which one produced a number has to
-    # travel with it. --recall is the k-best prefix alone, which is the pool the
-    # two-tier bound endorses at the operating weight. --sweep is that prefix plus
-    # shell draws, which reaches further into protein space for a higher price.
+    # The exchange rate is a property of the pool, so which source produced a
+    # number travels with it. --recall is the k-best prefix alone, --sweep that
+    # prefix plus shell draws.
     if args.recall:
         raw = json.loads(Path(args.recall).read_text(encoding="utf-8"))
         if not raw[0].get("normalised"):

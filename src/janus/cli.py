@@ -18,9 +18,11 @@ def main(argv: list[str] | None = None) -> int:
     subcommands = parser.add_subparsers(dest="command", required=True)
 
     run = subcommands.add_parser("design", help="design coding sequences for one backbone")
-    run.add_argument("--marginals", required=True, help="ProteinMPNN unconditional probability .npz")
-    run.add_argument("--host", default="ecoli_bl21", help="shipped host name or path to a host YAML")
-    run.add_argument("--delta", type=float, default=1.0, help="entropy budget in nats")
+    run.add_argument("--marginals", required=True,
+                     help="ProteinMPNN unconditional probability .npz")
+    run.add_argument("--host", default="ecoli_bl21",
+                     help="shipped host name or path to a host YAML")
+    run.add_argument("--delta", type=float, default=1.0, help="log-probability tolerance in nats")
     run.add_argument("--k", type=int, default=1, help="number of paths to return")
     run.add_argument("--lambda-mpnn", type=float, default=1.0)
     run.add_argument("--lambda-cai", type=float, default=0.0)

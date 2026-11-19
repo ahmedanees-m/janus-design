@@ -5,18 +5,14 @@ replace, so accessibility-weighted features are comparable across every group:
 same structure, different sequence. Natural controls carry their own structures.
 
 There are two natural arms. The first is the natural domains in the same
-MegaScale release, which is the like-for-like comparison but is mostly excised:
-only 15 of 104 entries are whole UniProt proteins. The second is whole natural
-proteins of the same size assembled separately, which is the comparison that can
-carry a claim about proteostatic liability, since a motif outside an excision is
-not absent, only unseen.
+MegaScale release, which are mostly excised fragments of larger chains. The
+second is whole natural proteins of the same size, assembled separately by
+`fetch_whole_naturals.py`.
 
 Gene-layer features are computed on coding sequences generated the same way for
-every group, by taking the highest relative-adaptiveness codon for each residue.
-Differences therefore reflect the residue sequence rather than the codon policy.
-The MegaScale as-ordered sequences are not used; per the data audit they are
-oligo-pool constrained and cannot carry a descriptive claim.
-"""
+every group, by taking the highest relative-adaptiveness codon for each residue,
+so differences reflect the residue sequence rather than the codon policy. The
+MegaScale as-ordered sequences are oligo-pool constrained and are not used."""
 
 from __future__ import annotations
 
@@ -28,8 +24,8 @@ from pathlib import Path
 import biotite.structure as struc
 import biotite.structure.io.pdb as pdb
 import numpy as np
-
 from features import gene_features, protein_features
+
 from janus import hosts
 from janus.genetic_code import SYNONYMOUS
 from janus.objectives.proteostasis import load_classes
@@ -136,8 +132,8 @@ def matched_arm(designs, records, label, classes, host):
     """One control row per design, matched on length then on composition.
 
     Within a 10 percent length band, take the nearest neighbour in composition
-    space, which is D8's second stratum. Without it a difference in low-complexity
-    content could be a pure composition artefact.
+    space. Without that second stratum a difference in low-complexity content
+    could be a pure composition artefact.
     """
     if not records:
         return []
@@ -220,7 +216,7 @@ def main():
         if number % 50 == 0:
             print(f"  {number}/{len(designs)} designs", flush=True)
 
-    # Length-match the natural controls to the designs, per the analysis plan.
+    # Length-match the natural controls to the designs.
     natural_records = [(p.stem, *read_backbone(p)) for p in naturals]
     rows.extend(matched_arm(designs, natural_records, "natural", classes, host))
 

@@ -1,9 +1,9 @@
 """Structural agreement between a predicted model and the target backbone.
 
-Every arm that moves residues returns a different protein, so the question is
-whether the fold survives. Each returned sequence is folded independently and
-the model is superposed on the backbone the design was made for, which gives a
-TM-score and an RMSD per arm and backbone on a scale set outside this work.
+Every arm that moves residues returns a different protein, so fold retention is
+measured directly. Each returned sequence is folded independently and the model
+is superposed on the backbone the design was made for, which gives a TM-score and
+an RMSD per arm and backbone on a scale set outside this work.
 
 TM-align is called as an external binary and its output parsed, so the alignment
 is the reference implementation rather than a reimplementation of it.

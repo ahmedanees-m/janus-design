@@ -1,15 +1,11 @@
 """Parse cost and attainable gain as a function of chain length.
 
-The lattice is linear in length and the measurements in this work are made on
-miniproteins, so the two have to be separated: what scales is a property of the
-algorithm, and what was measured is a property of the set. This times the parse
-and the k-best extraction over a length ladder, records the shell the budget
-admits at each length, and runs the shipped search so the gain over the
-fixed-protein codon dynamic program can be read against length as well.
+Times the parse and the k-best extraction over a length ladder, records the shell
+the budget admits at each length, and runs the shipped search so the gain over
+the fixed-protein codon dynamic program can be read against length as well.
 
 Timing is the median of repeated solves on a warm interpreter, so it reports the
-solve rather than the first call into it.
-"""
+solve rather than the first call into it."""
 
 from __future__ import annotations
 
@@ -21,9 +17,8 @@ import zlib
 from pathlib import Path
 
 import numpy as np
+from baselines import PDBLIKE, TIER1, coordinate_descent, make_objective, read_backbone
 
-from baselines import (PDBLIKE, TIER1, coordinate_descent, make_objective,
-                       read_backbone)
 from janus import design, hosts
 from janus.lattice import amino_acid_shell
 from janus.objectives.mpnn import load_unconditional
@@ -104,11 +99,10 @@ def main():
         for delta in args.deltas:
             shell = amino_acid_shell(marginals, delta)
             admitted = statistics.mean(len(s) for s in shell)
-            best = timed(lambda: design(marginals, host, weights=TIER1,
-                                        delta=delta, k=1), args.repeats)
-            kbest = timed(lambda: design(marginals, host, weights=TIER1,
-                                         delta=delta, k=args.kbest),
-                          args.repeats)
+            best = timed(lambda m=marginals, d=delta: design(
+                m, host, weights=TIER1, delta=d, k=1), args.repeats)
+            kbest = timed(lambda m=marginals, d=delta: design(
+                m, host, weights=TIER1, delta=d, k=args.kbest), args.repeats)
             row = {"set": args.set, "backbone": name, "length": len(native),
                    "delta": delta, "total_entropy": entropy,
                    "mean_shell": admitted,
@@ -131,9 +125,10 @@ def main():
                     "violations_codon_dp": len(pinned.violations),
                     "violations_joint": len(moved.violations),
                     "residues_moved": sum(a != b for a, b in
-                                          zip(moved.protein, pinned.protein)),
-                    "identity_to_native": sum(a == b for a, b in
-                                              zip(moved.protein, native)) / len(native),
+                                          zip(moved.protein, pinned.protein, strict=True)),
+                    "identity_to_native": sum(
+                        a == b for a, b in zip(moved.protein, native, strict=True)
+                    ) / len(native),
                     "search_seconds": time.perf_counter() - started,
                     "evaluations": evaluations,
                 })

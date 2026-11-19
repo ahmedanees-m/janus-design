@@ -1,30 +1,19 @@
 """Assemble a natural control arm of whole proteins, not excised domains.
 
-The natural arm the atlas currently uses is drawn from the MegaScale release,
-where most entries are domains cut out of larger chains: only 15 of 104 are whole
-UniProt entries, and the median covers 0.11 of its parent. A degron or a
-low-complexity window that sits outside the cut is invisible, and the excision
-analysis showed that is enough to flip the sign of the comparison. The control
-has to be proteins that are the whole thing.
-
 Selection is by annotation rather than by hand. Reviewed Swiss-Prot entries of 26
 to 74 residues, protein-level evidence, not fragments, with an AlphaFold model,
-and carrying no signal peptide, propeptide, transit peptide or peptide feature. The
-cleavage filters are what make them whole: an entry with a cleaved region has a
-precursor sequence and a different mature protein, and slicing one out of the
-other would reintroduce the excision problem at a smaller scale. What survives is
-the natural population of proteins that are born and stay this short, which is
-the population the designs belong to.
+and carrying no signal peptide, propeptide, transit peptide or peptide feature.
+The cleavage filters are what make them whole: an entry with a cleaved region has
+a precursor sequence and a different mature protein, and slicing one out of the
+other would reintroduce the excision problem at a smaller scale.
 
 Transmembrane and intramembrane annotations are excluded as well. Without that
-the band fills with recently annotated membrane microproteins, whose hydrophobic
-helices are buried in a bilayer the monomeric model does not contain, so they
-would read as exposed hydrophobic surface and the comparison would be about
-solubility rather than about design.
+the band fills with membrane microproteins, whose hydrophobic helices are buried
+in a bilayer the monomeric model does not contain, so they would read as exposed
+hydrophobic surface.
 
 Structures come from AlphaFold DB so that accessibility is computed the same way
-as for the designed backbones, which are themselves AlphaFold models.
-"""
+as for the designed backbones, which are themselves AlphaFold models."""
 
 from __future__ import annotations
 

@@ -1,27 +1,17 @@
-"""Does additivity hold for pairs of substitutions inside the shell?
+"""Additivity of pairs of substitutions drawn from the shell.
 
-JANUS proposes several substitutions at once and scores them independently, so
-whether their measured effects add matters. MegaScale carries double mutants for
-a subset of parents; each is compared against the sum of its two singles.
-
-The measured bias is upward, and more so on natural parents than on designed
-ones. Two readings fit that: genuine epistasis, milder for the milder
-substitutions the shell admits, or a measurement artefact of the assay's range.
+MegaScale carries double mutants for a subset of parents. Each is compared
+against the sum of its two singles on the same parent.
 
 The deposited values are not clipped. Their distribution is smooth from -15 to
 +18 with no pile-up at either end, so the release reports extrapolated free
-energies rather than censored ones. The range effect, if there is one, is
-therefore loss of precision rather than a wall: K50 resolves unfolding over a
-finite protease series, and a variant whose true stability sits far outside the
-middle of that series is extrapolated, with an error that grows with distance and
-cannot run symmetrically once the variant is already fully cleaved.
+energies rather than censored ones. K50 resolves unfolding over a finite
+protease series, and a variant whose true stability sits far outside the middle
+of that series is extrapolated, with an error that grows with distance.
 
-That makes the test a restriction rather than a threshold. Each record carries
-where its parent, its additive prediction and its observation sit on the measured
-scale, and the comparison is repeated on progressively narrower central bands. If
-the bias is a range effect it shrinks as the band tightens. If it is epistasis it
-does not.
-"""
+Each record carries where its parent, its additive prediction and its
+observation sit on the measured scale, and the comparison is repeated on
+progressively narrower central bands."""
 
 from __future__ import annotations
 
@@ -33,9 +23,8 @@ from pathlib import Path
 
 import numpy as np
 import pyarrow.parquet as pq
-
 from ddg import infer_offset, load_measurements
-from janus.genetic_code import translate
+
 from janus.lattice import amino_acid_shell
 from janus.objectives.mpnn import load_unconditional
 
@@ -83,12 +72,10 @@ def inside(row, low, high):
 
 
 def reconciliation(rows):
-    """Is the small in-shell subset actually in tension with the larger estimate?
+    """Interval on the in-shell designed subset and on the designed estimate.
 
-    The in-shell designed subset is the closest analogue to what the method does,
-    and its bias looks smaller than the designed estimate on the well-measured
-    band. Quoting a point estimate beside a half-width invites the reading that
-    the two disagree, so the interval is put on both and compared directly.
+    Both carry an interval, so the two are compared directly rather than as a
+    point estimate beside a half-width.
     """
     print()
     print("=== is the in-shell subset in tension with the designed estimate ===")
@@ -120,12 +107,10 @@ def reconciliation(rows):
 
 
 def mildness(rows):
-    """Are the substitutions the shell admits milder, and does that explain the gap?
+    """Severity of the substitutions the shell admits, and additivity against it.
 
-    The reconciliation on offer is that shell substitutions are the ones
-    ProteinMPNN considers plausible, so they should perturb stability less, and
-    milder substitutions should be more additive. Both halves are testable and
-    both are tested here rather than assumed.
+    Tests both halves: whether shell substitutions perturb stability less, and
+    whether milder substitutions are more additive.
     """
     from scipy.stats import mannwhitneyu
 
@@ -176,13 +161,10 @@ def mildness(rows):
 
 
 def propagation(rows):
-    """What the additive prediction is worth for a design carrying several changes.
+    """Additive prediction error for a design carrying several changes at once.
 
-    The delta sweep moves 4.9 to 6.0 residues at the operating point, so the
-    relevant question is not the error on one pair but on that many at once.
-    Assuming every pair deviates independently gives an upper bound; measuring
-    how the deviation decays with sequence separation says how loose that bound
-    is, since substitutions scattered along a short chain are mostly far apart.
+    Assuming every pair deviates independently gives an upper bound. How the
+    deviation decays with sequence separation says how loose that bound is.
     """
     designed = [r for r in rows if r["origin"] == "designed"]
     if len(designed) < 30:

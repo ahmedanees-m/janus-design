@@ -43,9 +43,7 @@ def axis_width(random_set, natural):
 
     The normalised position divides by the gap between the random and natural
     medians, so when that gap is small against the spread of the values the
-    statistic is a ratio of two quantities that are both noise. Reporting the
-    width lets a reader see which features the axis can carry rather than leaving
-    the exclusion implicit.
+    statistic is a ratio of two quantities that are both noise.
     """
     pooled = np.concatenate([random_set, natural])
     pooled = pooled[~np.isnan(pooled)]
@@ -59,10 +57,11 @@ def axis_width(random_set, natural):
 
 
 def normalised_position(design, random_set, natural, minimum=1.0):
-    """Where designs sit on the random-to-natural axis, per the analysis plan.
+    """Where designs sit on the random-to-natural axis.
 
     Returned only for features whose axis is at least ``minimum`` times the
-    scatter of its endpoints. Elsewhere the effect size is the statistic to read.
+    scatter of its endpoints. Elsewhere the effect size is the statistic to
+    read.
     """
     if not np.isfinite(axis_width(random_set, natural)):
         return None
@@ -75,10 +74,8 @@ def normalised_position(design, random_set, natural, minimum=1.0):
 def per_topology(rows, feature, control, rng, resamples, minimum=8):
     """Effect size and interval for one feature, split by topology family.
 
-    A family that flipped one gate once, and a fold stratification with about a
-    dozen designs per class, are both reasons to report this rather than a single
-    pooled number. Families below ``minimum`` designs are reported as such rather
-    than given an interval that would suggest more than the data holds.
+    Families below ``minimum`` designs are reported as such rather than given an
+    interval that would suggest more than the data holds.
     """
     families = sorted({r["topology"] for r in rows if r["group"] == "design"})
     out = []
@@ -116,9 +113,8 @@ DESIGN_METHODS = {
 def by_design_method(rows, feature, control, rng, resamples, minimum=8):
     """Split the hallucination family by the design set each member came from.
 
-    A pooled family estimate is only worth quoting if the family is one thing.
     These are separate design campaigns that share a label here, so the split
-    says whether the family effect belongs to all of them or to one.
+    reports the family effect per campaign.
     """
     def base(name):
         return name.split("_for_")[-1] if "_for_" in name else name
@@ -237,10 +233,10 @@ def main():
               f"{record['delta_vs_natural']:>9.3f}"
               f"{record['delta_vs_random']:>9.3f}"
               f"{record['delta_vs_scrambled']:>10.3f}"
-              f"{('%.2f' % pos) if pos is not None else '-':>8}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{pos:.2f}' if pos is not None else '-':>8}"
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
-    print("\n=== degron features, the Gate 4 question ===")
+    print("\n=== degron features ===")
     degron = [r for r in results if "degron" in r["feature"]]
     print(f"{'feature':<34}{'vs nat':>9}{'CI':>20}{'vs rand':>9}{'q(nat)':>10}")
     for record in sorted(degron, key=lambda r: r["feature"]):
@@ -250,7 +246,7 @@ def main():
               f"{record['delta_vs_natural']:>9.3f}"
               f"{f'[{low:+.2f}, {high:+.2f}]':>20}"
               f"{record['delta_vs_random']:>9.3f}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     if "whole_natural" in groups:
         print("\n=== degron features against whole natural proteins ===")
@@ -264,7 +260,7 @@ def main():
                   f"{record['delta_vs_whole_natural']:>10.3f}"
                   f"{f'[{low:+.2f}, {high:+.2f}]':>20}"
                   f"{record['delta_vs_natural']:>12.3f}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}")
 
         print("\n=== largest effects against whole natural proteins ===")
         ranked = sorted(results, key=lambda r: -abs(r["delta_vs_whole_natural"] or 0))
@@ -277,7 +273,7 @@ def main():
                   f"{record['delta_vs_natural']:>12.3f}"
                   f"{record['median_design']:>11.3f}"
                   f"{record.get('median_whole_natural', float('nan')):>11.3f}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     print("\n=== normalised position, every feature whose axis is wide enough ===")
     print(f"axis width is the random-to-natural gap over the scatter of those two "
@@ -291,7 +287,7 @@ def main():
         q = record["q_vs_natural"]
         print(f"{record['feature']:<34}{record['normalised_position']:>10.2f}"
               f"{record['axis_width']:>9.2f}{record['delta_vs_natural']:>9.3f}"
-              f"{('%.2g' % q) if q is not None else '-':>10}")
+              f"{f'{q:.2g}' if q is not None else '-':>10}")
 
     print("\n=== per-topology effect sizes ===")
     print("a pooled effect can be carried by one family, and the fold "
@@ -334,10 +330,10 @@ def main():
                        else "establishes nothing")
             print(f"    {record['topology']:<16}{record['n_design']:>6}"
                   f"{record['delta']:>9.3f}{f'[{low:+.2f}, {high:+.2f}]':>22}"
-                  f"{('%.2g' % q) if q is not None else '-':>10}  {verdict}")
+                  f"{f'{q:.2g}' if q is not None else '-':>10}  {verdict}")
 
-    # The hallucination family is the largest and the only one that comes out
-    # enriched, so whether it is one effect or one campaign's effect matters.
+    # The hallucination family is the largest, so it is reported on its own as
+    # well as inside the pooled panel.
     method_results = {}
     for feature in args.topology_features:
         if feature not in {r["feature"] for r in results}:

@@ -1,4 +1,4 @@
-"""How much of the objective does cheap search leave on the table?
+"""Shortfall of heuristic search from the exact lattice optimum.
 
 The parser gives the exact optimum; the same DP over negated weights gives the
 worst attainable path. The two fix the range the objective spans on a backbone,
@@ -36,8 +36,6 @@ ACCUMULATING = {
 }
 
 # Only the codon-pair term couples adjacent positions; the rest are node-local.
-# Sweeping its weight separates what the parser buys from how much the objective
-# is coupled in the first place.
 COUPLING = {
     f"cpb={value}": Weights(mpnn=1.0, cai=0.5, gc=0.5, cpb=value)
     for value in (0.0, 0.1, 0.3, 1.0, 3.0)
@@ -81,11 +79,10 @@ def residue_states(lattice):
 
 
 def sample_best(node, edge, lattice, marginals, table, temperature, seconds, rng):
-    """Posterior sampling with exact codons, the strongest form of Baseline 0.
+    """Posterior sampling with exact codons, the strongest sampling comparator.
 
     Residues are drawn from the tempered marginals within the shell, then codons
-    for that fixed sequence are optimised exactly. Sampling codons too would be a
-    weaker comparator.
+    for that fixed sequence are optimised exactly.
     """
     weights = []
     for position, admitted in enumerate(lattice.amino_acids):

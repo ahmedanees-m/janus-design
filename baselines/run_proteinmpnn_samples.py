@@ -1,10 +1,10 @@
 """Sample residue sequences from a ProteinMPNN-format checkpoint.
 
 The method comparison gives every stochastic model one draw per backbone, which
-is the cheapest point on its curve and not the one a user would operate at. A
-search method that spends thousands of objective evaluations should be compared
-against a sampler allowed to spend the same, so this draws a batch per backbone
-at a stated temperature and writes every draw. The scoring step then reads them
+is the cheapest point on its curve rather than the point it would be operated
+at. Matching a search that spends thousands of objective evaluations requires a
+sampler allowed to spend the same, so this draws a batch per backbone at a
+stated temperature and writes every draw. The scoring step then reads them
 back and reports the best of the first n for each n.
 
 The vanilla, soluble and developability-aligned checkpoints share a format and

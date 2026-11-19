@@ -1,12 +1,9 @@
-"""Does the parser's ordering help find good folding candidates, or would
-sampling the same shell do as well?
+"""Folding candidates in the Tier-1 prefix against draws from the same shell.
 
 mRNA folding cannot enter the parser: base pairs form at arbitrary range, so a
-path's folding energy is not a sum over its positions. The two-tier design has
-the parser propose candidates and folding rank them. That is only worth doing if
-a Tier-1 prefix of size N contains better folding candidates than N draws from
-the same shell, so both are given the same number of folding evaluations.
-"""
+path's folding energy is not a sum over its positions. A Tier-1 prefix of size N
+is therefore compared against N draws from the same shell, both given the same
+number of folding evaluations."""
 
 from __future__ import annotations
 
@@ -35,10 +32,10 @@ PDBLIKE = re.compile(r"^[0-9][A-Za-z0-9]{3}$")
 def combined(tier1, energy, lam, scale_tier1=1.0, scale_initiation=1.0):
     """Tier-1 score plus a weighted initiation term, optionally on the spread scale.
 
-    With unit scales this is the raw combination the first run used, where lambda
-    silently carries the nats-per-kcal conversion and so does not transfer between
-    backbones. Dividing each term by its spread over the ranked pool makes lambda
-    dimensionless and puts it on the same axis as the folding sweep.
+    With unit scales this is the raw combination, in which lambda carries the
+    nats-per-kcal conversion and so does not transfer between backbones. Dividing
+    each term by its spread over the ranked pool makes lambda dimensionless and
+    puts it on the same axis as the folding sweep.
     """
     return tier1 / scale_tier1 + lam * energy / scale_initiation
 

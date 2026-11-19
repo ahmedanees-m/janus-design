@@ -1,13 +1,11 @@
 """Write the top-K residue sequences by summed unconditional marginal.
 
-The parser optimises this sum, so this is its ranking by construction. Whatever
-reorders it under conditional scoring is the surrogate gap.
+The parser optimises this sum, so this is its ranking by construction.
 
 The lattice used here carries one state per admitted residue rather than one per
 codon. Over the full codon lattice the k-best paths are synonymous variants of a
-single protein, which is the right answer for gene design and the wrong
-candidate set for a question about residue choice.
-"""
+single protein, which is the wrong candidate set for a question about residue
+choice."""
 
 from __future__ import annotations
 

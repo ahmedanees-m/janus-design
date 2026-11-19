@@ -10,8 +10,7 @@ a mature N-terminal leucine, phenylalanine, tryptophan or tyrosine, with
 arginine and lysine reaching the same pathway after leucylation.
 
 This computes that signal for every arm and reports it beside the eukaryotic
-panel, so the two hosts are read under their own machinery rather than under one
-borrowed from the other.
+panel, so each host is read under its own machinery.
 """
 
 from __future__ import annotations

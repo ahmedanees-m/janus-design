@@ -27,8 +27,8 @@ import pytest
 
 from janus import Weights, design
 from janus.genetic_code import AA_ALPHABET, SYNONYMOUS
-from janus.objectives import assemble
 from janus.lattice import build
+from janus.objectives import assemble
 
 LINEARDESIGN = importlib.util.find_spec("LinearDesign") or importlib.util.find_spec("lineardesign")
 
@@ -129,14 +129,14 @@ def test_codon_layer_reproduces_lineardesign_in_the_cai_limit(ecoli, marginals):
     still never coincide in general. At a large lambda, though, the CAI term
     dominates and LinearDesign returns a CAI-maximal assignment, which the codon
     layer must reproduce exactly on the same codon table. That is agreement with an
-    independent implementation rather than with our own enumeration.
+    independent implementation rather than with an enumeration from this package.
     """
     adaptiveness = read_frequency_table(LINEARDESIGN_TABLE)
     host = dataclasses.replace(ecoli, relative_adaptiveness=adaptiveness,
                                codon_pair_scores={})
 
     log_marginals = marginals(length=40, seed=7)
-    ours = design(log_marginals, host, weights=Weights(mpnn=1.0, cai=1000.0),
+    solved = design(log_marginals, host, weights=Weights(mpnn=1.0, cai=1000.0),
                   delta=0.0, k=1)[0]
 
     # The binary resolves its shared library by a path relative to the working
@@ -145,10 +145,10 @@ def test_codon_layer_reproduces_lineardesign_in_the_cai_limit(ecoli, marginals):
         [str(Path(LINEARDESIGN_BIN).resolve()), "1000", "0",
          str(Path(LINEARDESIGN_TABLE).resolve())],
         cwd=Path(LINEARDESIGN_BIN).resolve().parent,
-        input=ours.protein, capture_output=True, text=True, check=True,
+        input=solved.protein, capture_output=True, text=True, check=True,
     )
     match = re.search(r"mRNA sequence:\s+([ACGU]+)", result.stdout)
     assert match, result.stdout[-400:]
-    theirs = match.group(1).replace("U", "T")
+    reference = match.group(1).replace("U", "T")
 
-    assert theirs == ours.cds
+    assert reference == solved.cds

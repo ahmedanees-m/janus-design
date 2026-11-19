@@ -6,8 +6,7 @@ happens in the main container so every baseline is scored by the same code.
 
 CodonTransformer chooses codons for a given protein, so it is a codon-layer
 method and is given the design's own residue sequence, exactly as the vendor
-baseline is. Comparing it against the joint arm without saying that would be
-comparing two different problems.
+baseline is. It is reported as a codon-layer arm for that reason.
 """
 
 from __future__ import annotations

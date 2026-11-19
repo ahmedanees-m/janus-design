@@ -1,16 +1,13 @@
-"""Are the natural controls whole proteins, or domains cut out of larger ones?
+"""Parent coverage of the natural control entries.
 
-The atlas reports that designs bury their termini more than natural domains do,
-and that this drives a lower accessibility-weighted degron burden. MegaScale's
-natural arm is drawn from the PDB at 40 to 80 residues, which is the size range
-where excised domains live. A domain cut out of a larger chain has termini that
-were never solvent exposed in the parent, so the excision protocol alone could
-manufacture the effect.
+MegaScale's natural arm is drawn from the PDB at 40 to 80 residues, which is the
+size range where excised domains live. A domain cut out of a larger chain has
+termini that were never solvent exposed in the parent, which the terminal
+features and the degron panel that reads them are sensitive to.
 
 This classifies each natural entry by how much of its UniProt reference sequence
 the deposited entity covers, using RCSB's own alignment, and re-runs the
-comparison on the whole-protein subset.
-"""
+comparison on the whole-protein subset."""
 
 from __future__ import annotations
 

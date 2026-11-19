@@ -1,4 +1,4 @@
-"""The feature panel of analysis_plan.md, computed for one record at a time.
+"""The feature panel, computed for one record at a time.
 
 A record is a residue sequence, optionally a backbone for accessibility and
 secondary structure, and optionally a coding sequence. Controls have no
@@ -159,7 +159,8 @@ def protein_features(protein, classes, accessibility=None, sse=None):
             if a is not None and a > EXPOSED and HYDROPATHY.get(r, 0) > HYDROPHOBIC
         ))
         out["exposed_hydrophobic_patches"] = sum(
-            1 for match in re.finditer(r"1{2,}", "".join("1" if f else "0" for f in exposed_hydrophobic))
+            1 for match in re.finditer(
+                r"1{2,}", "".join("1" if f else "0" for f in exposed_hydrophobic))
         )
 
     if sse is not None:

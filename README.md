@@ -3,7 +3,6 @@
 [![tests](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml/badge.svg)](https://github.com/ahmedanees-m/janus-design/actions/workflows/tests.yml)
 [![python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
 [![licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
-[![preprint](https://img.shields.io/badge/preprint-10.21203%2Frs.3.rs--10942775-00857c)](https://doi.org/10.21203/rs.3.rs-10942775/v1)
 
 Joint optimisation of amino acid and coding sequence for de novo designed proteins.
 
@@ -69,12 +68,7 @@ src/janus/                the package
     ecoli_bl21.yaml       E. coli BL21(DE3): Shine-Dalgarno, pET-28a leader
     hek293.yaml           human: cap-scanning, Kozak context
 
-analysis/                 what was run, and what came out
-  analysis_plan.md        feature panel, thresholds and tests, fixed beforehand
-  limitations.md          what each result does not establish
-  audit.md                a normalisation defect, its blast radius, the re-runs
-  data_audit.md           every input checked against its source
-  *.md                    one note per experiment
+analysis/                 the analysis scripts and their configuration
   config.yaml             seeds, thresholds, resample counts
   scripts/                one script per experiment, each writing JSON
     redesign_sequences.py the sequence every arm returns
@@ -86,7 +80,7 @@ analysis/                 what was run, and what came out
     prefix_coverage.py    what the Tier-1 prefix keeps
     host_proteostasis.py  the bacterial N-end rule signal per arm
     excision_effects.py   the excised arm split by parent coverage
-    reported_values.py    every aggregate the paper quotes, in one place
+    reported_values.py    every reported aggregate, in one place
 
 tests/                    74 tests, 2 skipped: one needs the LinearDesign binary
 baselines/                the comparator arms that need their own environment
@@ -100,8 +94,8 @@ CITATION.cff              machine-readable citation
 LICENSE                   MIT
 ```
 
-The figure scripts and their per-panel source data are in the Zenodo deposit
-rather than here, so that the repository stays the solver and the analysis.
+The per-panel source data for every figure is in the Zenodo deposit rather
+than here.
 
 ## Usage
 
@@ -133,8 +127,8 @@ To see alternatives rather than one answer, ask for more paths:
 janus design --marginals marginals/backbone.npz --host ecoli_bl21 --k 50
 ```
 
-`--delta` sets the entropy budget in nats, which controls how far from the
-marginal optimum the search may wander. Half a nat captures most of what is
+`--delta` sets the log-probability tolerance in nats, which controls how far
+from the marginal optimum the search may wander. Half a nat captures most of what is
 available and one nat captures nearly all of it. Zero pins the protein and
 reduces JANUS to a codon optimiser, which is useful as a control:
 
@@ -187,8 +181,8 @@ Synthesis constraints are checked, not weighted. A six-base restriction site
 spans up to three codons and a homopolymer limit of nine spans four, so neither
 decomposes over adjacent codon pairs and neither can live inside the parse. They
 are applied as a filter over the ranked list, which is why the interface returns
-a list: about half of any given pool passes every constraint, so a method
-returning a single sequence would violate one about half the time.
+a list: about two thirds of a ranked pool passes every constraint, while the
+single best-scoring sequence passes just under three fifths of the time.
 
 ## Hosts
 
@@ -223,7 +217,9 @@ that automaton so each position admits the codons of every amino acid within a
 log-probability tolerance of the marginal optimum, with each residue branch
 carrying its marginal as an additive node weight. The automaton is then
 amino-acid-degenerate as well as codon-degenerate, and parsing returns the best
-(protein, gene) pair jointly. A 43-residue lattice solves in about 1.6 ms.
+(protein, gene) pair jointly. Parse time is linear in chain length at a held
+admitted set: over the 447 designed backbones, whose median length is 43, the
+median parse is 8.7 ms at a budget of 0.5 nats and 16.9 ms at 1.0, on one core.
 
 Optimisation runs in two tiers. The first parses the lattice exactly over the
 terms that decompose over nodes and adjacent-codon edges and returns the *k* best
@@ -254,7 +250,7 @@ LinearDesign binary, and one is skipped by construction, since LinearDesign's
 objective carries a folding term that never enters this parse. On a solver-only
 install a further 21 skip, since they need the analysis extra. Two
 check the layers in isolation: an open shell scored on the marginal term alone
-must return the marginal argmax, and a zero entropy budget must collapse the
+must return the marginal argmax, and a zero tolerance must collapse the
 lattice to a fixed-protein codon automaton whose optimum matches exhaustive
 enumeration on short lattices. In the CAI limit the codon layer reproduces
 LinearDesign path for path.
@@ -303,18 +299,15 @@ Zenodo at https://doi.org/10.5281/zenodo.22253785, which always resolves to the
 latest version. The deposit carries the unconditional inverse-folding marginals
 for all 862 backbones, so every analysis here runs on CPU without rerunning
 ProteinMPNN, together with the tagged source tree, the container definition, the
-analysis and figure scripts, and the dependency manifests.
+analysis scripts and the dependency manifests.
 
 ## Citation
 
 ```
-Mahaboob Ali AA, Delhibabu R, Nelson EJR.
-Joint optimisation of amino acid and coding sequence for de novo designed
-proteins. Research Square, 8 September 2026. doi:10.21203/rs.3.rs-10942775/v1
+Mahaboob Ali AA, Delhibabu R, Nelson EJR. janus-design: joint optimisation over
+amino acid and coding sequence for de novo designed proteins. Version 0.2.0.
+https://github.com/ahmedanees-m/janus-design
 ```
-
-The preprint is not peer reviewed. It will be replaced here by the journal
-version once one exists.
 
 `CITATION.cff` carries the machine-readable form. Releases are tagged in this
 repository; cite the tag for a specific version. The data deposit carries its own

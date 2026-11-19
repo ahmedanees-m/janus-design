@@ -2,7 +2,7 @@
 
 CodonMPNN is the closest prior art: a codon-level inverse folding model that
 chooses residues and codons together from structure, conditioned on an
-organism. It is the comparison this project has to stand against.
+organism.
 
 The published repository has weights and a training script but no inference
 entry point: `likelihood_eval.py` carries absolute paths to the authors' cluster
@@ -11,11 +11,11 @@ module, however, depends only on torch and numpy and exposes the usual
 autoregressive `sample`, so this drives that directly and skips the Lightning
 wrapper, openfold and wandb that the rest of the repository pulls in.
 
-Two facts had to be recovered rather than read from documentation. The codon
-vocabulary is 65 wide, 64 codons and an unknown, ordered by `codon_order`. And
-the organism conditioning is not an NCBI taxon id but an index into a 20000-way
-grouping built for training; *E. coli*, NCBI 562, sits at index 1893, read off
-the grouping table the authors publish alongside the weights.
+Two parameters are undocumented and were recovered from the published code and
+weights. The codon vocabulary is 65 wide, 64 codons and an unknown, ordered by
+`codon_order`. The organism conditioning is not an NCBI taxon id but an index
+into a 20000-way grouping built for training; E. coli, NCBI 562, sits at index
+1893, read off the grouping table the authors publish alongside the weights.
 
 Sampling is at low temperature rather than argmax, because the decoder is
 autoregressive over a random decoding order and a greedy pass is not the model's
@@ -34,7 +34,6 @@ from types import SimpleNamespace
 
 import numpy as np
 import torch
-
 from codon.utils.codon_const import codon_order
 from codon.utils.pmpnn import ProteinMPNN, get_weird_pmpnn_stuff
 

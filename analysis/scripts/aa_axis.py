@@ -1,35 +1,24 @@
-"""Does the amino-acid axis buy anything a codon optimiser cannot?
+"""Achievable liability reduction on the amino-acid axis and the codon axis.
 
-The 5' initiation term is reachable by synonymous change, and the decomposition
-showed 88 percent of the cheap gain is exactly that. The terms in
-`janus.objectives.liability` are not reachable that way at all: they are
-functions of the residue sequence and, where structure matters, of a fixed
-accessibility. A fixed-protein codon designer's achievable improvement on them is
-zero by construction, and the point of this script is to measure that zero beside
-a nonzero rather than to assert it.
-
-Two arms search the same shell under the same objective and the same weights:
+The terms in `janus.objectives.liability` are functions of the residue sequence
+and, where structure matters, of a fixed accessibility, so a fixed-protein codon
+designer cannot move them. Two arms search the same shell under the same
+objective and the same weights:
 
 - joint, in which every residue the shell admits is available
 - codon only, in which each position is pinned to the residue the Tier-1 optimum
   chose, so only the codons can move
 
-Searching rather than rescoring a sampled pool matters here. Ranking a fixed pool
-of uniform shell draws under a rising weight gives a step function: the winner
-stays at the Tier-1 optimum until some distant random draw overtakes it, and the
-apparent exchange rate is then a property of what happened to be sampled. A
-greedy exchange starting from the Tier-1 optimum traces a path along the
-exchange, one residue at a time, and every weight in the grid reads off a point
-on that trace. Being greedy it is a lower bound on what the shell holds rather
-than the true Pareto frontier, which is enough here: the comparison is against an
-arm whose achievable removal is zero, and a lower bound above zero settles it.
+Both arms search rather than rescore a sampled pool. A greedy exchange starting
+from the Tier-1 optimum traces a path along the exchange, one residue at a time,
+and every weight in the grid reads off a point on that trace. Being greedy, it
+gives a lower bound on what the shell holds rather than the Pareto frontier.
 
-Two accounting conventions, stated rather than left implicit. Tier-1 cost is in
-nats of the decomposable objective, positive meaning given up. Budget spent is
-the ProteinMPNN marginal log-probability surrendered at the changed positions,
-over the most the shell could surrender if every position took its worst
-admitted residue.
-"""
+Two accounting conventions are used throughout. Tier-1 cost is in nats of the
+decomposable objective, positive meaning given up. Budget spent is the
+ProteinMPNN marginal log-probability surrendered at the changed positions, over
+the most the shell could surrender if every position took its worst admitted
+residue."""
 
 from __future__ import annotations
 
@@ -111,9 +100,8 @@ def descend(search, reference, burden, admitted, max_steps=MAX_STEPS):
 
     Returns the trace including the starting point. Each step takes the admitted
     substitution with the largest burden reduction per nat of Tier-1 score given
-    up, so the trace covers the exchange rather than one weight's answer. Restricting
-    `admitted` to the reference residue gives the codon-only arm, which therefore
-    runs this same code and is not simulated.
+    up. Restricting ``admitted`` to the reference residue gives the codon-only
+    arm.
     """
     base = burden(reference.protein)
     trace = [{"design": reference, "burden": base, "cost": 0.0, "step": 0}]
@@ -202,7 +190,7 @@ def main():
         for target in TARGETS:
             cache: dict[str, float] = {}
 
-            def burden(protein, target=target, cache=cache):
+            def burden(protein, target=target, cache=cache, rsa=rsa):
                 if protein not in cache:
                     cache[protein] = liability.score(target, protein, rsa, classes)
                 return cache[protein]
@@ -282,8 +270,8 @@ def summarise(rows):
                   f"{100 * np.mean([r['budget_spent'] for r in joint]):>8.1f}%"
                   f"{100 * np.mean([r['residue_changes'] > 0 for r in joint]):>7.0f}%")
 
-        # The tail the mean hides: what the exchange costs on designs that carry
-        # something worth removing.
+        # Restricted to the designs that carry the liability, since a mean over
+        # all designs is diluted by those with nothing to remove.
         loaded = [r for r in subset if r["weight"] == 1.0 and r["reference_liability"] > 0
                   and r["frontier_reach"] > EPS]
         if loaded:

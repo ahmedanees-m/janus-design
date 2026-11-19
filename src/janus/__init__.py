@@ -1,7 +1,8 @@
 """Joint amino acid and codon design for de novo proteins."""
 
 from .design import Design, design, evaluate
-from .hosts import Host, load as load_host
+from .hosts import Host
+from .hosts import load as load_host
 from .lattice import Lattice, amino_acid_shell
 from .objectives import Weights
 

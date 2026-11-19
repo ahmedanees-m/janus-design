@@ -23,7 +23,7 @@ import numpy as np
 from janus import Weights, design, hosts
 from janus.objectives import mrna
 from janus.objectives.mpnn import load_unconditional
-from janus.rescore import FoldingWeights, Scales, pool_scales, rescore
+from janus.rescore import FoldingWeights, pool_scales, rescore
 from janus.sample import shell_samples
 
 TIER1 = Weights(mpnn=1.0, cai=0.5, cpb=0.3)
@@ -96,8 +96,10 @@ def summarise(rows):
     backbones = sorted({r["backbone"] for r in rows})
     print(f"\n=== pool scales, {len(backbones)} backbones ===")
     at_zero = [r for r in rows if r["lam"] == 0.0]
-    print(f"  Tier-1 spread across the pool:      median {np.median([r['scale_tier1'] for r in at_zero]):.3f} nats")
-    print(f"  initiation spread across the pool:  median {np.median([r['scale_initiation'] for r in at_zero]):.3f} kcal/mol")
+    print(f"  Tier-1 spread across the pool:      "
+          f"median {np.median([r['scale_tier1'] for r in at_zero]):.3f} nats")
+    print(f"  initiation spread across the pool:  "
+          f"median {np.median([r['scale_initiation'] for r in at_zero]):.3f} kcal/mol")
     ratio = np.median([r["scale_tier1"] / r["scale_initiation"] for r in at_zero])
     print(f"  ratio: one kcal/mol of initiation is worth {ratio:.2f} nats of Tier-1")
     print("  an unnormalised weight of 1.0 was therefore implicitly weighting")

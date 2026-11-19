@@ -86,7 +86,7 @@ def main():
                                add_special_tokens=False)["input_ids"].cuda()
             with torch.no_grad():
                 output = model(tokens, num_recycles=args.recycles)
-            for name, text in zip(names, model.output_to_pdb(output)):
+            for name, text in zip(names, model.output_to_pdb(output), strict=True):
                 (out / f"{name}.pdb").write_text(text, encoding="utf-8")
             done += len(group)
             if done % 200 < args.batch:

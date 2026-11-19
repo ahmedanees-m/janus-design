@@ -1,14 +1,11 @@
-"""The two statistics the plan committed to that were still missing.
+"""The primary statistics for the atlas and the fold stratification.
 
-Section 8.3 named the normalised position on the random-to-natural axis, with
-bootstrap intervals, as H1's primary statistic. Every table so far has reported
-design-against-natural deltas instead.
+The normalised position on the random-to-natural axis, with bootstrap intervals,
+is computed here alongside the design-against-natural deltas the feature tables
+carry.
 
-The H5 fold stratification is the most quotable result there and the most likely
-to be underpowered: 614 designs across 53 classes is about a dozen each, and an
-AUC of 0.5 on a dozen designs is indistinguishable from noise. Per-class
-intervals decide whether the dissociation can be stated at all.
-"""
+The fold stratification is thinly populated, 614 designs across 53 classes, so
+per-class bootstrap intervals are reported with it."""
 
 from __future__ import annotations
 
@@ -18,13 +15,13 @@ import json
 from pathlib import Path
 
 import numpy as np
+from features import protein_features
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from features import protein_features
 from janus.objectives.proteostasis import load_classes
 
 PRIMARY = [
@@ -95,7 +92,7 @@ def main():
     rng = np.random.default_rng(args.seed)
     atlas = json.loads(Path(args.atlas).read_text(encoding="utf-8"))
 
-    print("=== H1 primary statistic: position on the random-to-natural axis ===")
+    print("=== primary statistic: position on the random-to-natural axis ===")
     print("  0 sits at random, 1 at natural; beyond 1 is past natural")
     print(f"{'feature':<36}{'position':>10}{'95% interval':>22}{'axis width':>12}")
     positions = {}
@@ -111,7 +108,7 @@ def main():
     print("  close, so the axis is short and the ratio is poorly determined. Those")
     print("  features are reported as effect sizes only.")
 
-    print("\n=== H5 per-class discrimination, with intervals ===")
+    print("\n=== per-class discrimination, with intervals ===")
     classes = load_classes(args.elm)
     with Path(args.benchmark).open(newline="", encoding="utf-8", errors="replace") as fh:
         raw = list(csv.DictReader(fh))

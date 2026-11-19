@@ -1,4 +1,4 @@
-"""Cross-host redesign: what changes when a design is turned into a gene.
+"""Cross-host redesign, separated into a codon layer and an amino-acid layer.
 
 Three arms on the same backbones, so the two layers can be told apart:
 
@@ -8,10 +8,7 @@ Three arms on the same backbones, so the two layers can be told apart:
 3. the joint search over residues and codons
 
 Arm 2 minus arm 1 is what the codon layer buys with the protein held fixed. Arm 3
-minus arm 2 is what the amino-acid layer adds on top. Reporting only 1 against 3,
-as the first version did, charges the amino-acid move for everything including
-the initiation energy the codon layer would have recovered on its own.
-"""
+minus arm 2 is what the amino-acid layer adds on top."""
 
 from __future__ import annotations
 
@@ -24,14 +21,14 @@ from pathlib import Path
 import biotite.structure as struc
 import biotite.structure.io.pdb as pdb
 import numpy as np
-
 from features import gene_features, protein_features
+
 from janus import Weights, design, hosts
 from janus.genetic_code import SYNONYMOUS
 from janus.objectives import liability, mrna
+from janus.objectives.mpnn import load_unconditional
 from janus.objectives.proteostasis import load_classes
 from janus.objectives.synthesis import violations
-from janus.objectives.mpnn import load_unconditional
 from janus.rescore import FoldingWeights, pool_scales, rescore
 from janus.sample import ShellSearch, shell_samples
 
@@ -122,13 +119,9 @@ def joint_arm(marginals, host, native, delta, start, total, burden, max_steps,
 
     Starting from the codon arm rather than from the shell's own optimum is what
     makes the difference between the two attributable to the residue freedom. The
-    lattice is anchored on the native sequence so it contains the starting point;
-    a shell centred on the marginal argmax generally does not, and a joint arm
-    built that way differs from the codon arm in two ways at once.
+    lattice is anchored on the native sequence so it contains the starting point.
 
-    The trajectory is returned as well as the endpoint. Residues moved is a budget
-    a designer spends, so the objective as a function of that budget is more
-    useful than the local optimum on its own.
+    The trajectory is returned as well as the endpoint.
     """
     search = ShellSearch(marginals, host, TIER1, delta, anchor=native)
 
@@ -282,16 +275,12 @@ def budgets(janus):
     """What the objective and its parts look like at each residue budget.
 
     The Tier-1 column is marked model-internal and kept out of the summary column
-    beside it. It rises along this trajectory because the starting protein is the
-    design's own sequence, which sits below the ProteinMPNN optimum inside its own
-    shell, and it is measured on the same marginals the objective maximises. A
-    gain there is a statement about the model agreeing with itself.
+    beside it: it is measured on the same marginals the objective maximises, and
+    the starting protein sits below the ProteinMPNN optimum inside its own shell.
 
-    Initiation energy and liability burden are not. Folding energy comes from
-    ViennaRNA and the liabilities from motif and composition definitions, neither
-    of which the search consults through ProteinMPNN. Their sum is the column to
-    read, and it is reported on the spread-normalised scale so the two terms are
-    commensurable.
+    Initiation energy comes from ViennaRNA and the liabilities from motif and
+    composition definitions, neither of which the search consults through
+    ProteinMPNN. Their sum is reported on the spread-normalised scale.
     """
     traces = [r["trajectory"] for r in janus if "trajectory" in r]
     if not traces:

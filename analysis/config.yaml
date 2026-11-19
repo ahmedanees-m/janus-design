@@ -1,4 +1,4 @@
-# Seeds and thresholds used across the analysis scripts. See analysis_plan.md.
+# Seeds and thresholds used across the analysis scripts.
 
 seeds:
   global: 0

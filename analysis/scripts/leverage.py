@@ -1,10 +1,9 @@
-"""H2b: does design freedom sit where the gene-level objective can use it?
+"""Positional leverage of the gene-level terms, against positional entropy.
 
 Leverage at position i is the range of a gene-level term reachable by varying
-that position alone, with every other position held at the Tier-1 optimum. H2b
-predicts leverage and entropy coincide over the N-terminal region. Entropy is
-measured in the same run so the two profiles are directly comparable.
-"""
+that position alone, with every other position held at the Tier-1 optimum.
+Entropy is measured in the same run so the two profiles are directly
+comparable."""
 
 from __future__ import annotations
 
@@ -16,8 +15,8 @@ import numpy as np
 from scipy.stats import spearmanr
 
 from janus import Weights, design, hosts
-from janus.genetic_code import CODON_TO_AA, SYNONYMOUS, gc_fraction
-from janus.lattice import amino_acid_shell, build
+from janus.genetic_code import SYNONYMOUS, gc_fraction
+from janus.lattice import amino_acid_shell
 from janus.objectives import mrna
 from janus.objectives.mpnn import load_unconditional
 
@@ -129,7 +128,7 @@ def summarise(rows, window):
     print(f"  beyond:                  {tail:.3f} nats")
     print(f"  difference:              {head - tail:+.3f} nats")
 
-    print("\n=== H2b: entropy against leverage inside the window ===")
+    print("\n=== entropy against leverage inside the window ===")
     rho = np.array([r["rho_window"] for r in rows if r["rho_window"] is not None])
     null_mean = np.array([r["null_mean"] for r in rows if r["rho_window"] is not None])
     null_sd = np.array([r["null_sd"] for r in rows if r["rho_window"] is not None])
